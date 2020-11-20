@@ -9,7 +9,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import {auth, generateUserDocument} from '../../firebase/firebase.utils'
+import {auth, saveUserDocument} from '../../firebase/firebase.utils'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -39,7 +39,7 @@ export default function SignUp() {
         event.preventDefault();
         try{
           const {user} = await auth.createUserWithEmailAndPassword(email, password);
-          generateUserDocument(user, {displayName});
+          saveUserDocument(user, {displayName});
         }
         catch(error){
           alert(error.message);
