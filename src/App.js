@@ -6,6 +6,7 @@ import SignIn from './pages/sign-in/sign-in.component'
 import SignUp from './pages/sign-up/sign-up.component'
 import useAuth from './hooks/useAuth'
 import RestaurantName from './pages/restaurant-name/restaurant-name.component';
+import Management from './pages/management/management.component';
 
 function App() {
   const user = useAuth();
@@ -13,6 +14,7 @@ function App() {
 
   return (
     <div className="App">
+    {/* header should go here */}
       {/* {user ?
       `Welcome ${user.managerName}`
       : "nobody"} */}
