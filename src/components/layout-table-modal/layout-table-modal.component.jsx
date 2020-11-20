@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import {ManagementContext} from '../../pages/management/management.context'
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -19,32 +20,27 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 export default function LayoutTableModal() {
+    const [state, dispatch] = useContext(ManagementContext);
+    const {selectedCell} = state;
+
     // const [modalStyle] = React.useState(getModalStyle);
     const classes = useStyles();
-    const [open, setOpen] = React.useState(true);
-  
-    const handleOpen = () => {
-      setOpen(true);
-    };
   
     const handleClose = () => {
-      setOpen(false);
+        dispatch({type: 'SELECT_CELL', payload: null});
     };
   
     return (
       <div>
-        <button type="button" onClick={handleOpen}>
-          Open Modal
-        </button>
         <Modal
-          open={open}
+          open={selectedCell}
           onClose={handleClose}
           className={classes.modal}
           aria-labelledby="simple-modal-title"
           aria-describedby="simple-modal-description"
         >
         <div className={classes.paper}>
-          <h2>Create Table #1</h2>
+        <h2>Create Table #{selectedCell}</h2>
           
         <form className={classes.form} noValidate>
               <TextField

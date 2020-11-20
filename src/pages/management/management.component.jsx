@@ -1,13 +1,13 @@
-import Paper from '@material-ui/core/Paper';
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
+import React, { useContext } from 'react';
 import LayoutCell from '../../components/layout-cell/layout-cell.component'
 import LayoutTableModal from '../../components/layout-table-modal/layout-table-modal.component'
+import {ManagementContext} from './management.context'
 
 import './management.style.css';
 
 const Management = () => {
-  
+
+    const [state, dispatch] = useContext(ManagementContext);
     const cellsCount = 150;
 
     let cells = [];
@@ -36,7 +36,7 @@ const Management = () => {
 
     const cellClickHandler = (cellNumber) => {
         console.log(cellNumber);
-        // set selected cell...
+        dispatch({type: 'SELECT_CELL', payload: cellNumber});
       };
 
     return (
@@ -52,7 +52,7 @@ const Management = () => {
         }
 
         </div>
-        <LayoutTableModal></LayoutTableModal>
+        <LayoutTableModal />
     </div>
     )
 }

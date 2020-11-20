@@ -7,6 +7,7 @@ import SignUp from './pages/sign-up/sign-up.component'
 import useAuth from './hooks/useAuth'
 import RestaurantName from './pages/restaurant-name/restaurant-name.component';
 import Management from './pages/management/management.component';
+import {ManagementContainer} from './pages/management/management.context';
 
 function App() {
   const user = useAuth();
@@ -14,16 +15,11 @@ function App() {
 
   return (
     <div className="App">
-    {/* header should go here */}
-      {/* {user ?
-      `Welcome ${user.managerName}`
-      : "nobody"} */}
     <Switch>
-      {/* <Route path="/sign-in" component={SignIn}></Route> */}
       <Route path="/sign-up" component={SignUp}></Route>
       <Route exact path="/" render={
         () => user ?
-        (restaurantName ? <Management /> : <RestaurantName />)
+        (restaurantName ? <ManagementContainer><Management /></ManagementContainer> : <RestaurantName />)
         : (<SignIn />)
       }></Route>
     </Switch>
