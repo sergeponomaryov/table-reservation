@@ -75,7 +75,7 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign Up - Table Management
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={(e) => {e.preventDefault();}}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField

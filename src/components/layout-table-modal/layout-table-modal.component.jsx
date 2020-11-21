@@ -35,7 +35,7 @@ export default function LayoutTableModal() {
   useEffect(() => {
     async function fetchData() {
       if (selectedCell) {
-        const table = await getTableByCell(selectedCell);
+        const table = await getTableByCell(user.uid, selectedCell);
         setTable(table);
         setSeats(table && table.seats ? table.seats : "");
       }

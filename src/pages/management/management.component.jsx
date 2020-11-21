@@ -19,6 +19,7 @@ const Management = () => {
   // make sure updates from modal affect grid. Or dont bother storing any back end data on front end and always go thru firestore.
 
   // load tables from back end
+  // make sure this doesnt listen all the time, we are exceeding quota. tried adding user dependency
   useEffect(() => {
     async function fetchData() {
         if (user) {
@@ -27,7 +28,7 @@ const Management = () => {
         }
       }
       fetchData();
-  });
+  }, [user]);
 
   const cellClickHandler = (cellNumber) => {
     dispatch({ type: "SELECT_CELL", payload: cellNumber });

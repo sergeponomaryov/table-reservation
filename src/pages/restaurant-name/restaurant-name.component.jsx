@@ -65,7 +65,7 @@ export default function RestaurantName() {
         <Typography component="h1" variant="h5">
           Please enter your restaurant's name
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={(e) => {e.preventDefault();}}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField

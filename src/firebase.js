@@ -76,8 +76,8 @@ export const getTables = async (userId) => {
   });
 };
 
-export const getTableByCell = async (cell) => {
-  const query = await db.collection("tables").where("cell", "==", cell).get();
+export const getTableByCell = async (userId, cell) => {
+  const query = await db.collection("tables").where("cell", "==", cell).where("userId", "==", userId).get();
 
   if (!query.empty) {
     const snapshot = query.docs[0];
