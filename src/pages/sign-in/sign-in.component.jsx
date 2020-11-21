@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -9,7 +9,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { auth, signInWithGoogle } from '../../firebase/firebase.utils'
+import { auth, signInWithGoogle } from "../../firebase/firebase.utils";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -37,8 +37,8 @@ export default function SignIn() {
   const [error, setError] = useState(null);
   const signInWithEmailAndPasswordHandler = (event, email, password) => {
     event.preventDefault();
-    auth.signInWithEmailAndPassword(email, password).catch(error => {
-        alert(error.message);
+    auth.signInWithEmailAndPassword(email, password).catch((error) => {
+      alert(error.message);
     });
   };
 
@@ -75,7 +75,7 @@ export default function SignIn() {
             name="email"
             autoComplete="email"
             autoFocus
-            onChange={event => onChangeHandler(event)}
+            onChange={(event) => onChangeHandler(event)}
           />
           <TextField
             variant="outlined"
@@ -87,7 +87,7 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
-            onChange={event => onChangeHandler(event)}
+            onChange={(event) => onChangeHandler(event)}
           />
           <Button
             type="button"
@@ -95,8 +95,8 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.button}
-            onClick={event => {
-                signInWithEmailAndPasswordHandler(event, email, password);
+            onClick={(event) => {
+              signInWithEmailAndPasswordHandler(event, email, password);
             }}
           >
             Sign In

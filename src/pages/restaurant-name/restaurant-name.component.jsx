@@ -1,29 +1,29 @@
-import React, {useState} from "react";
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import InfoIcon from '@material-ui/icons/Info';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import {saveUserDocument} from '../../firebase/firebase.utils'
-import useAuth from '../../hooks/useAuth'
+import React, { useState } from "react";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import Grid from "@material-ui/core/Grid";
+import InfoIcon from "@material-ui/icons/Info";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import { saveUserDocument } from "../../firebase/firebase.utils";
+import useAuth from "../../hooks/useAuth";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(3),
   },
   submit: {
@@ -32,26 +32,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function RestaurantName() {
-    const [restaurantName, setRestaurantName] = useState("");
-    const user = useAuth();
-    
-    const saveRestaurantName = async (event, restaurantName) => {
-        event.preventDefault();
-        try{
-          const doc = await saveUserDocument(user, {restaurantName});
-          console.log(doc);
-        }
-        catch(error){
-          alert(error.message);
-        }
-      };
+  const [restaurantName, setRestaurantName] = useState("");
+  const user = useAuth();
 
-    const onChangeHandler = event => {
-        const { name, value } = event.currentTarget;
-        if (name === "restaurantName") {
-            setRestaurantName(value);
-        }
-    };
+  const saveRestaurantName = async (event, restaurantName) => {
+    event.preventDefault();
+    try {
+      const doc = await saveUserDocument(user, { restaurantName });
+      console.log(doc);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  const onChangeHandler = (event) => {
+    const { name, value } = event.currentTarget;
+    if (name === "restaurantName") {
+      setRestaurantName(value);
+    }
+  };
 
   const classes = useStyles();
 
@@ -76,7 +75,7 @@ export default function RestaurantName() {
                 id="restaurantName"
                 label="Restaurant Name"
                 autoFocus
-                onChange={event => onChangeHandler(event)}
+                onChange={(event) => onChangeHandler(event)}
               />
             </Grid>
           </Grid>
@@ -86,9 +85,9 @@ export default function RestaurantName() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={event => {
-                saveRestaurantName(event, restaurantName);
-              }}
+            onClick={(event) => {
+              saveRestaurantName(event, restaurantName);
+            }}
           >
             Submit
           </Button>

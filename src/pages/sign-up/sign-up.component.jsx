@@ -1,29 +1,29 @@
-import React, {useState} from "react";
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import {auth, saveUserDocument} from '../../firebase/firebase.utils'
+import React, { useState } from "react";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import Link from "@material-ui/core/Link";
+import Grid from "@material-ui/core/Grid";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import { auth, saveUserDocument } from "../../firebase/firebase.utils";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(3),
   },
   submit: {
@@ -32,29 +32,35 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUp() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [displayName, setDisplayName] = useState("");
-    const createUserWithEmailAndPasswordHandler = async (event, email, password) => {
-        event.preventDefault();
-        try{
-          const {user} = await auth.createUserWithEmailAndPassword(email, password);
-          saveUserDocument(user, {displayName});
-        }
-        catch(error){
-          alert(error.message);
-        }
-      };
-    const onChangeHandler = event => {
-        const { name, value } = event.currentTarget;
-        if (name === "email") {
-        setEmail(value);
-        } else if (name === "password") {
-        setPassword(value);
-        } else if (name === "displayName") {
-        setDisplayName(value);
-        }
-    };
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [displayName, setDisplayName] = useState("");
+  const createUserWithEmailAndPasswordHandler = async (
+    event,
+    email,
+    password
+  ) => {
+    event.preventDefault();
+    try {
+      const { user } = await auth.createUserWithEmailAndPassword(
+        email,
+        password
+      );
+      saveUserDocument(user, { displayName });
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+  const onChangeHandler = (event) => {
+    const { name, value } = event.currentTarget;
+    if (name === "email") {
+      setEmail(value);
+    } else if (name === "password") {
+      setPassword(value);
+    } else if (name === "displayName") {
+      setDisplayName(value);
+    }
+  };
 
   const classes = useStyles();
 
@@ -80,7 +86,7 @@ export default function SignUp() {
                 id="displayName"
                 label="Manager Name"
                 autoFocus
-                onChange={event => onChangeHandler(event)}
+                onChange={(event) => onChangeHandler(event)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -92,7 +98,7 @@ export default function SignUp() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
-                onChange={event => onChangeHandler(event)}
+                onChange={(event) => onChangeHandler(event)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -105,7 +111,7 @@ export default function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                onChange={event => onChangeHandler(event)}
+                onChange={(event) => onChangeHandler(event)}
               />
             </Grid>
           </Grid>
@@ -115,9 +121,9 @@ export default function SignUp() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={event => {
-                createUserWithEmailAndPasswordHandler(event, email, password);
-              }}
+            onClick={(event) => {
+              createUserWithEmailAndPasswordHandler(event, email, password);
+            }}
           >
             Sign Up
           </Button>
