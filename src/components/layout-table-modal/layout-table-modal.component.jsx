@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import {Context} from '../../store';
 import {findCellTable} from '../../selector';
+import {getTableByCell} from '../../firebase/firebase.utils'
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -22,9 +23,15 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LayoutTableModal() {
     const [state, dispatch] = useContext(Context);
-    const {selectedCell, tables} = state;
+    const {selectedCell} = state;
+    const [table, setTable] = useState(null);
 
-    const table = findCellTable(tables, selectedCell);
+    useEffect(async () => {
+        if(selectedCell) {
+          const table = await getTableByCell(selectedCell);
+          setTable(table);
+        }
+    }, [selectedCell]);
 
     // const [modalStyle] = React.useState(getModalStyle);
     const classes = useStyles();

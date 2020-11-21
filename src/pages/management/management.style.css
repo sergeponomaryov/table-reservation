@@ -10,4 +10,7 @@
 
 .grid-item {
     cursor: pointer;
+    border-top: 1px solid grey;
+    border-left: 1px solid grey;
+    align-items: center;
 }

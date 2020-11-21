@@ -4,7 +4,8 @@ import Reducer from './reducer'
 const initialState = {
     selectedCell: null,
     cellCount: 150,
-    tables: []
+    tables: [],
+    draggedTable: null
 };
 
 export const Store = ({children}) => {

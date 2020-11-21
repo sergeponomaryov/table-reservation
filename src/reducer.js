@@ -7,21 +7,11 @@ const Reducer = (state, action) => {
                 ...state,
                 selectedCell: action.payload
             };
-        case 'SAVE_TABLE':
-        {
-            let table = findTableByNumber(state.cellData, action.payload.number);
-            if(!table) table = action.payload;
+        case 'SET_DRAGGED_TABLE':
             return {
                 ...state,
-                selectedCell: action.payload
+                draggedTable: action.payload
             };
-        }
-        case 'SET_TABLES':
-            return {
-                tables: action.payload
-            };
-        default:
-            return state;
     }
 };
 

@@ -1,6 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
+import { nullLiteral } from '@babel/types';
 
 const config = {
     apiKey: "AIzaSyBlZBeow8Y8Bm3mLcrcXLkU5jpZxtqI7LA",
@@ -66,8 +67,25 @@ export default firebase;
 
 export const getTables = async (userId) => {
   const snapshot = await db.collection('tables').where('userId', '==', userId).get()
-  return snapshot.docs.map(doc => doc.data());
+  return snapshot.docs.map(doc => {
+    const data = doc.data();
+    const id = doc.id;
+    return {id, ...data};
+  });
 };
 
-export const getTable = async (id) => {
+export const getTableByCell = async (cell) => {
+  const query = await db.collection('tables').where('cell', '==', cell).get();
+
+  if (!query.empty) {
+    const snapshot = query.docs[0];
+    const data = snapshot.data();
+    return data;
+  } else {
+    return null;
+  }
 };
+
+export const updateTable = (id, data) => {
+  db.collection("tables").doc(id).update(data);
+}
