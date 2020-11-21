@@ -1,5 +1,5 @@
-export const findCellItem = (cellData, i) => {
-    return cellData.find(obj => {return obj.cell === i});
+export const findCellTable = (tables, i) => {
+    return tables.find(obj => {return obj.cell === i});
 }
 
 export const findTableByNumber = (cellData, number) => {

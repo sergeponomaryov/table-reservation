@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import LayoutTableModal from '../../components/layout-table-modal/layout-table-modal.component'
 import {Context} from '../../store'
-import {findCellItem} from '../../selector'
 import Table from '../../components/table/table.component'
 import { Paper } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
-import {authenticateAnonymously, getTables} from '../../firebase/firebase.utils'
+import {getTables} from '../../firebase/firebase.utils'
 import useAuth from '../../hooks/useAuth'
+import {findCellTable} from '../../selector'
 
 import './management.style.css';
 
@@ -30,11 +30,7 @@ const Management = () => {
     const {cellCount} = state;
     const [tables, setTables] = useState([]);
 
-    let cells = [];
-    for (let i = 1; i <= cellCount; i++) {
-        cells.push([]);
-    }
-
+    // load tables from back end on mount and store them in context
     useEffect(async () => {
         if(user) {
             const tables = await getTables(user.uid);
@@ -42,13 +38,15 @@ const Management = () => {
         }
     });
 
-    const findCellTable = (tables, i) => {
-        return tables.find(obj => {return obj.cell === i});
-    }
-
     const cellClickHandler = (cellNumber) => {
         dispatch({type: 'SELECT_CELL', payload: cellNumber});
     };
+
+    // generate a cell grid
+    let cells = [];
+    for (let i = 1; i <= cellCount; i++) {
+        cells.push([]);
+    }
 
     return (
     <div>
@@ -56,6 +54,7 @@ const Management = () => {
         
         {
             cells.map((val, i) => {
+                console.log(tables);
                 const table = findCellTable(tables, i);
                 return (<div className="grid-item" key={i} onClick={() => {
                         cellClickHandler(i);

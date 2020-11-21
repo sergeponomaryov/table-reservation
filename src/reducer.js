@@ -16,9 +16,9 @@ const Reducer = (state, action) => {
                 selectedCell: action.payload
             };
         }
-        case 'SET_CELL_DATA':
+        case 'SET_TABLES':
             return {
-                cellData: action.payload
+                tables: action.payload
             };
         default:
             return state;

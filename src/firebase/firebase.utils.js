@@ -64,11 +64,10 @@ export const signInWithGoogle = () => auth.signInWithPopup(provider)
 
 export default firebase;
 
-export const authenticateAnonymously = () => {
-  return firebase.auth().signInAnonymously();
-};
-
 export const getTables = async (userId) => {
   const snapshot = await db.collection('tables').where('userId', '==', userId).get()
   return snapshot.docs.map(doc => doc.data());
+};
+
+export const getTable = async (id) => {
 };
