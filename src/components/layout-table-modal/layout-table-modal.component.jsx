@@ -29,6 +29,7 @@ export default function LayoutTableModal() {
     if (selectedCell) {
       const table = await getTableByCell(selectedCell);
       setTable(table);
+      setSeats(table && table.seats ? table.seats : "");
     }
   }, [selectedCell]);
 
@@ -39,10 +40,9 @@ export default function LayoutTableModal() {
     dispatch({ type: "SELECT_CELL", payload: null });
   };
 
-  const [seats, setSeats] = useState(table ? table.seats : "");
+  const [seats, setSeats] = useState();
 
-  const saveTable = async (event) => {
-    event.preventDefault();
+  const saveTable = async () => {
     updateTable(table.id, { seats });
     handleClose();
   };
@@ -67,7 +67,7 @@ export default function LayoutTableModal() {
         <div className={classes.paper}>
           <h2>{table ? `Update Table #${table.number}` : "Create Table"}</h2>
 
-          <form className={classes.form} noValidate>
+          <form className={classes.form} noValidate onSubmit={(e) => {e.preventDefault(); saveTable();}}>
             <TextField
               name="seats"
               variant="outlined"
@@ -77,7 +77,7 @@ export default function LayoutTableModal() {
               label="Number of seats"
               type="number"
               autoFocus
-              value={seats}
+              value={seats || ""}
               onChange={(event) => onChangeHandler(event)}
             />
             <Button
@@ -86,8 +86,8 @@ export default function LayoutTableModal() {
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick={(event) => {
-                saveTable(event);
+              onClick={() => {
+                saveTable();
               }}
             >
               Submit
