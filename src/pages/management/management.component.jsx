@@ -7,7 +7,7 @@ import { findCellTable } from "../../selector";
 import LayoutTableModal from "../../components/layout-table-modal/layout-table-modal.component";
 import Table from "../../components/table/table.component";
 
-import "./management.style.css";
+import "./management.style.scss";
 
 const Management = () => {
   const user = useAuth();
