@@ -89,6 +89,35 @@ export const getTableByCell = async (cell) => {
   }
 };
 
-export const updateTable = (id, data) => {
-  db.collection("tables").doc(id).update(data);
+export const updateTable = async (id, data) => {
+  const doc = db.collection("tables").doc(id);
+  doc.set(data, { merge: true });
+};
+
+export const createTable = async (data) => {
+  const doc = db.collection("tables").doc();
+  const ref = db
+  .collection("tables")
+  .where("userId", "==", data.userId)
+  .orderBy("number", "desc").limit(1);
+
+  db.runTransaction(async transaction => {
+    const query = await transaction.get(ref);
+    let number = 1;
+    if (!query.empty) {
+      const snapshot = query.docs[0];
+      const data = snapshot.data();
+      const id = snapshot.id;
+      number = { id, ...data };
+    }
+    data = {number, ...data};
+    transaction.set(doc, data);
+  });
+};
+
+export const deleteTable = (id) => {
+  db.collection("tables").doc(id).delete();
+};
+
+export const getNextTableNumber = async (userId) => {
 };

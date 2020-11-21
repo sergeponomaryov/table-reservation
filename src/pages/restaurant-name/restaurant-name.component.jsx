@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { saveUserDocument } from "../../firebase";
+import useAuth from "../../hooks/useAuth";
+
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -8,8 +11,6 @@ import InfoIcon from "@material-ui/icons/Info";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { saveUserDocument } from "../../firebase";
-import useAuth from "../../hooks/useAuth";
 
 const useStyles = makeStyles((theme) => ({
   paper: {

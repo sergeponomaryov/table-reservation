@@ -1,10 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
+import { Context } from "../../store";
+import { getTableByCell, createTable, updateTable, deleteTable } from "../../firebase";
+import useAuth from "../../hooks/useAuth";
+
 import Modal from "@material-ui/core/Modal";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { Context } from "../../store";
-import { getTableByCell, updateTable } from "../../firebase";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -18,19 +20,27 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
+  button: {
+    margin: theme.spacing(2, 0, 0),
+  },
 }));
 
 export default function LayoutTableModal() {
   const [state, dispatch] = useContext(Context);
   const { selectedCell } = state;
   const [table, setTable] = useState(null);
+  const [seats, setSeats] = useState();
+  const user = useAuth();
 
-  useEffect(async () => {
-    if (selectedCell) {
-      const table = await getTableByCell(selectedCell);
-      setTable(table);
-      setSeats(table && table.seats ? table.seats : "");
+  useEffect(() => {
+    async function fetchData() {
+      if (selectedCell) {
+        const table = await getTableByCell(selectedCell);
+        setTable(table);
+        setSeats(table && table.seats ? table.seats : "");
+      }
     }
+    fetchData();
   }, [selectedCell]);
 
   // const [modalStyle] = React.useState(getModalStyle);
@@ -40,10 +50,14 @@ export default function LayoutTableModal() {
     dispatch({ type: "SELECT_CELL", payload: null });
   };
 
-  const [seats, setSeats] = useState();
+  const handleSave = () => {
+    if(table) updateTable(table.id, { seats });
+    else createTable({ cell: selectedCell, userId: user.uid, seats });
+    handleClose();
+  };
 
-  const saveTable = async () => {
-    updateTable(table.id, { seats });
+  const handleDelete = () => {
+    deleteTable(table.id);
     handleClose();
   };
 
@@ -67,7 +81,7 @@ export default function LayoutTableModal() {
         <div className={classes.paper}>
           <h2>{table ? `Update Table #${table.number}` : "Create Table"}</h2>
 
-          <form className={classes.form} noValidate onSubmit={(e) => {e.preventDefault(); saveTable();}}>
+          <form className={classes.form} noValidate onSubmit={(e) => {e.preventDefault(); handleSave();}}>
             <TextField
               name="seats"
               variant="outlined"
@@ -85,12 +99,24 @@ export default function LayoutTableModal() {
               fullWidth
               variant="contained"
               color="primary"
-              className={classes.submit}
+              className={classes.button}
               onClick={() => {
-                saveTable();
+                handleSave();
               }}
             >
               Submit
+            </Button>
+            <Button
+              type="button"
+              fullWidth
+              variant="contained"
+              color="secondary"
+              className={classes.button}
+              onClick={() => {
+                handleDelete();
+              }}
+            >
+              Delete
             </Button>
           </form>
         </div>

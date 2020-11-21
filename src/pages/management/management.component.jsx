@@ -1,12 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import LayoutTableModal from "../../components/layout-table-modal/layout-table-modal.component";
 import { Context } from "../../store";
-import Table from "../../components/table/table.component";
-import { Paper } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import { getTables, updateTable } from "../../firebase";
 import useAuth from "../../hooks/useAuth";
 import { findCellTable } from "../../selector";
+
+import LayoutTableModal from "../../components/layout-table-modal/layout-table-modal.component";
+import Table from "../../components/table/table.component";
 
 import "./management.style.css";
 
@@ -20,11 +19,14 @@ const Management = () => {
   // make sure updates from modal affect grid. Or dont bother storing any back end data on front end and always go thru firestore.
 
   // load tables from back end
-  useEffect(async () => {
-    if (user) {
-      const tables = await getTables(user.uid);
-      setTables(tables);
-    }
+  useEffect(() => {
+    async function fetchData() {
+        if (user) {
+          const tables = await getTables(user.uid);
+          setTables(tables);
+        }
+      }
+      fetchData();
   });
 
   const cellClickHandler = (cellNumber) => {
