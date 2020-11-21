@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../../store";
 import { getTableByCell, createTable, updateTable, deleteTable } from "../../firebase";
 import useAuth from "../../hooks/useAuth";
+import {findCellTable} from '../../selector';
 
 import Modal from "@material-ui/core/Modal";
 import { makeStyles } from "@material-ui/core/styles";
@@ -27,20 +28,25 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LayoutTableModal() {
   const [state, dispatch] = useContext(Context);
-  const { selectedCell } = state;
+  const { selectedCell, tables } = state;
   const [table, setTable] = useState(null);
   const [seats, setSeats] = useState();
   const user = useAuth();
 
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     if (selectedCell) {
+  //       const table = await getTableByCell(user.uid, selectedCell);
+  //       setTable(table);
+  //       setSeats(table && table.seats ? table.seats : "");
+  //     }
+  //   }
+  //   fetchData();
+  // }, [selectedCell]);
+
   useEffect(() => {
-    async function fetchData() {
-      if (selectedCell) {
-        const table = await getTableByCell(user.uid, selectedCell);
-        setTable(table);
-        setSeats(table && table.seats ? table.seats : "");
-      }
-    }
-    fetchData();
+    setTable(findCellTable(tables, selectedCell));
+    // now update tables in context, which management should bind to
   }, [selectedCell]);
 
   // const [modalStyle] = React.useState(getModalStyle);

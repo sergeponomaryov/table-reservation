@@ -12,6 +12,11 @@ const Reducer = (state, action) => {
                 ...state,
                 draggedTable: action.payload
             };
+        case 'SET_TABLES':
+            return {
+                ...state,
+                tables: action.payload
+            };
     }
 };
 

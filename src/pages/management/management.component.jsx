@@ -25,6 +25,7 @@ const Management = () => {
         if (user) {
           const tables = await getTables(user.uid);
           setTables(tables);
+          dispatch({ type: "SET_TABLES", payload: tables });
         }
       }
       fetchData();
