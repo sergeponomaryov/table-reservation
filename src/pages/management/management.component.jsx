@@ -1,11 +1,12 @@
-import React, { useContext } from 'react';
-import LayoutCell from '../../components/layout-cell/layout-cell.component'
+import React, { useContext, useEffect, useState } from 'react';
 import LayoutTableModal from '../../components/layout-table-modal/layout-table-modal.component'
 import {Context} from '../../store'
 import {findCellItem} from '../../selector'
 import Table from '../../components/table/table.component'
 import { Paper } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
+import {authenticateAnonymously, getTables} from '../../firebase/firebase.utils'
+import useAuth from '../../hooks/useAuth'
 
 import './management.style.css';
 
@@ -24,13 +25,25 @@ const useStyles = makeStyles((theme) => ({
 const Management = () => {
 
     const classes = useStyles();
+    const user = useAuth();
     const [state, dispatch] = useContext(Context);
-    const {cellCount, cellData} = state;
+    const {cellCount} = state;
+    const [tables, setTables] = useState([]);
 
     let cells = [];
-
     for (let i = 1; i <= cellCount; i++) {
         cells.push([]);
+    }
+
+    useEffect(async () => {
+        if(user) {
+            const tables = await getTables(user.uid);
+            setTables(tables);
+        }
+    });
+
+    const findCellTable = (tables, i) => {
+        return tables.find(obj => {return obj.cell === i});
     }
 
     const cellClickHandler = (cellNumber) => {
@@ -43,12 +56,12 @@ const Management = () => {
         
         {
             cells.map((val, i) => {
-                const item = findCellItem(cellData, i);
+                const table = findCellTable(tables, i);
                 return (<div className="grid-item" key={i} onClick={() => {
                         cellClickHandler(i);
                     }}>
                     <Paper className={classes.paper}>
-                        {item ? <Table table={item} /> : "Empty"}
+                        {table ? <Table table={table} /> : "Empty"}
                     </Paper>
                 </div>)
             })

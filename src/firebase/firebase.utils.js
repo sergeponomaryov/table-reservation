@@ -14,7 +14,7 @@ const config = {
 
   export const saveUserDocument = async (user, additionalData) => {
     if (!user) return;
-    const userRef = firestore.doc(`users/${user.uid}`);
+    const userRef = db.doc(`users/${user.uid}`);
     const snapshot = await userRef.get();
     if (!snapshot.exists) {
       const { email, displayName } = user;
@@ -43,7 +43,7 @@ const config = {
   const getUserDocument = async uid => {
     if (!uid) return null;
     try {
-      const userDocument = await firestore.doc(`users/${uid}`).get();
+      const userDocument = await db.doc(`users/${uid}`).get();
       return {
         uid,
         ...userDocument.data()
@@ -56,10 +56,19 @@ const config = {
 firebase.initializeApp(config);
 
 export const auth = firebase.auth();
-export const firestore = firebase.firestore();
+export const db = firebase.firestore();
 
 const provider = new firebase.auth.GoogleAuthProvider();
 provider.setCustomParameters({prompt: 'select_account'});
 export const signInWithGoogle = () => auth.signInWithPopup(provider)
 
 export default firebase;
+
+export const authenticateAnonymously = () => {
+  return firebase.auth().signInAnonymously();
+};
+
+export const getTables = async (userId) => {
+  const snapshot = await db.collection('tables').where('userId', '==', userId).get()
+  return snapshot.docs.map(doc => doc.data());
+};

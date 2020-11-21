@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -32,6 +32,24 @@ export default function LayoutTableModal() {
     const handleClose = () => {
         dispatch({type: 'SELECT_CELL', payload: null});
     };
+
+    const [seats, setSeats] = useState("");
+    
+    const saveTable = async (event) => {
+        event.preventDefault();
+        dispatch({type: 'SAVE_TABLE', payload: {
+          cell: selectedCell,
+          number: cellItem.number ?? null,
+          seats
+        }});
+      };
+
+    const onChangeHandler = event => {
+        const { name, value } = event.currentTarget;
+        if (name === "seats") {
+            setSeats(value);
+        }
+    };
   
     return (
       <div>
@@ -56,7 +74,7 @@ export default function LayoutTableModal() {
                 label="Number of seats"
                 type="number"
                 autoFocus
-                // onChange={event => onChangeHandler(event)}
+                onChange={event => onChangeHandler(event)}
               />
           <Button
             type="button"
@@ -64,9 +82,9 @@ export default function LayoutTableModal() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            // onClick={event => {
-            //     createUserWithEmailAndPasswordHandler(event, email, password);
-            //   }}
+            onClick={event => {
+                saveTable(event);
+              }}
           >
             Submit
           </Button>
