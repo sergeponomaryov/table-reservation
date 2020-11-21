@@ -3,7 +3,8 @@ import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import {ManagementContext} from '../../pages/management/management.context'
+import {Context} from '../../store';
+import {findCellItem} from '../../selector';
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -20,8 +21,10 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 export default function LayoutTableModal() {
-    const [state, dispatch] = useContext(ManagementContext);
-    const {selectedCell} = state;
+    const [state, dispatch] = useContext(Context);
+    const {selectedCell, cellData} = state;
+
+    const cellItem = findCellItem(cellData, selectedCell);
 
     // const [modalStyle] = React.useState(getModalStyle);
     const classes = useStyles();
@@ -33,14 +36,15 @@ export default function LayoutTableModal() {
     return (
       <div>
         <Modal
-          open={selectedCell}
+          open={selectedCell ? true : false}
           onClose={handleClose}
           className={classes.modal}
           aria-labelledby="simple-modal-title"
           aria-describedby="simple-modal-description"
         >
         <div className={classes.paper}>
-        <h2>Create Table #{selectedCell}</h2>
+
+        <h2>{cellItem ? `Update Table #${cellItem.number}` : 'Create Table'}</h2>
           
         <form className={classes.form} noValidate>
               <TextField

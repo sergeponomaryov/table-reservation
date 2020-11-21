@@ -1,7 +1,8 @@
-const ManagementReducer = (state, action) => {
+const Reducer = (state, action) => {
     switch (action.type) {
         case 'SELECT_CELL':
             return {
+                ...state,
                 selectedCell: action.payload
             };
         default:
@@ -9,4 +10,4 @@ const ManagementReducer = (state, action) => {
     }
 };
 
-export default ManagementReducer;
+export default Reducer;

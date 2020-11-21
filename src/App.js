@@ -7,7 +7,6 @@ import SignUp from './pages/sign-up/sign-up.component'
 import useAuth from './hooks/useAuth'
 import RestaurantName from './pages/restaurant-name/restaurant-name.component';
 import Management from './pages/management/management.component';
-import {ManagementContainer} from './pages/management/management.context';
 
 function App() {
   const user = useAuth();
@@ -19,7 +18,7 @@ function App() {
       <Route path="/sign-up" component={SignUp}></Route>
       <Route exact path="/" render={
         () => user ?
-        (restaurantName ? <ManagementContainer><Management /></ManagementContainer> : <RestaurantName />)
+        (restaurantName ? <Management /> : <RestaurantName />)
         : (<SignIn />)
       }></Route>
     </Switch>
