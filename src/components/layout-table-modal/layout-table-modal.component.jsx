@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { Context } from "../../store";
-import { getTableByCell, updateTable } from "../../firebase/firebase.utils";
+import { getTableByCell, updateTable } from "../../firebase";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -39,20 +39,22 @@ export default function LayoutTableModal() {
     dispatch({ type: "SELECT_CELL", payload: null });
   };
 
-  const [seats, setSeats] = useState("");
+  const [seats, setSeats] = useState(table ? table.seats : "");
 
   const saveTable = async (event) => {
     event.preventDefault();
     updateTable(table.id, { seats });
+    handleClose();
   };
 
   const onChangeHandler = (event) => {
     const { name, value } = event.currentTarget;
     if (name === "seats") {
-      setSeats(value);
+      setSeats(parseInt(value));
     }
   };
 
+  // move this modal into another component, so that this page can be reused in management, with another modal
   return (
     <div>
       <Modal
@@ -75,6 +77,7 @@ export default function LayoutTableModal() {
               label="Number of seats"
               type="number"
               autoFocus
+              value={seats}
               onChange={(event) => onChangeHandler(event)}
             />
             <Button

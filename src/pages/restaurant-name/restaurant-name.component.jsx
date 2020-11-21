@@ -8,7 +8,7 @@ import InfoIcon from "@material-ui/icons/Info";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { saveUserDocument } from "../../firebase/firebase.utils";
+import { saveUserDocument } from "../../firebase";
 import useAuth from "../../hooks/useAuth";
 
 const useStyles = makeStyles((theme) => ({

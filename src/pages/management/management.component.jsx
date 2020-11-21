@@ -4,26 +4,13 @@ import { Context } from "../../store";
 import Table from "../../components/table/table.component";
 import { Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { getTables, updateTable } from "../../firebase/firebase.utils";
+import { getTables, updateTable } from "../../firebase";
 import useAuth from "../../hooks/useAuth";
 import { findCellTable } from "../../selector";
 
 import "./management.style.css";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-    height: "95%",
-  },
-}));
-
 const Management = () => {
-  const classes = useStyles();
   const user = useAuth();
   const [state, dispatch] = useContext(Context);
   const { cellCount, draggedTable } = state;

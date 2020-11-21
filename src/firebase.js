@@ -82,7 +82,8 @@ export const getTableByCell = async (cell) => {
   if (!query.empty) {
     const snapshot = query.docs[0];
     const data = snapshot.data();
-    return data;
+    const id = snapshot.id;
+    return { id, ...data };
   } else {
     return null;
   }
