@@ -92,27 +92,15 @@ export const getTableByCell = async (cell) => {
 export const updateTable = async (id, data) => {
   const doc = db.collection("tables").doc(id);
   doc.set(data, { merge: true });
-};
+}
 
 export const createTable = async (data) => {
   const doc = db.collection("tables").doc();
-  const ref = db
-  .collection("tables")
-  .where("userId", "==", data.userId)
-  .orderBy("number", "desc").limit(1);
-
-  db.runTransaction(async transaction => {
-    const query = await transaction.get(ref);
-    let number = 1;
-    if (!query.empty) {
-      const snapshot = query.docs[0];
-      const data = snapshot.data();
-      const id = snapshot.id;
-      number = { id, ...data };
-    }
-    data = {number, ...data};
-    transaction.set(doc, data);
-  });
+  // fetch the next table number
+  
+  const nextTableNumber = await getNextTableNumber(data.userId);
+  data = {number: nextTableNumber, ...data};
+  doc.set(data);
 };
 
 export const deleteTable = (id) => {
@@ -120,4 +108,17 @@ export const deleteTable = (id) => {
 };
 
 export const getNextTableNumber = async (userId) => {
+  const query = await db
+    .collection("tables")
+    .where("userId", "==", userId)
+    .orderBy("number", "desc").limit(1)
+    .get();
+
+  if (!query.empty) {
+    const snapshot = query.docs[0];
+    const data = snapshot.data();
+    return data.number + 1;
+  } else {
+    return 1;
+  }
 };
