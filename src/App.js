@@ -4,6 +4,7 @@ import { Context } from "./store";
 import {Switch, Route} from 'react-router-dom'
 
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Grid from '@material-ui/core/Grid';
 
 import SignIn from './components/sign-in'
 import SignUp from './components/sign-up'
@@ -15,12 +16,21 @@ function App() {
   const user = useAuth();
   const {restaurantName} = user || {}
   const [state, dispatch] = useContext(Context);
-  const {loading} = state;
+  const {firebaseLoading} = state;
 
   return (
     <div className="App">
-    { loading ?
+    { firebaseLoading ?
+    <Grid
+      container
+      spacing={0}
+      direction="column"
+      alignItems="center"
+      justify="center"
+      style={{ minHeight: '100vh' }}
+    >
     <CircularProgress />
+    </Grid>
     :
     <Switch>
       <Route path="/sign-up" component={SignUp}></Route>

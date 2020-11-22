@@ -18,7 +18,7 @@ const Reducer = (state, action) => {
         case 'SET_FIREBASE_LOADING':
             return {
                 ...state,
-                loading: action.payload
+                firebaseLoading: action.payload
             };
     }
 };

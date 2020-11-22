@@ -6,7 +6,7 @@ const initialState = {
     cellCount: 150,
     tables: [],
     draggedTable: null,
-    loading: true
+    firebaseLoading: true
 };
 
 export const Store = ({children}) => {
