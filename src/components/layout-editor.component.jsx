@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store";
 import { getTables, updateTable } from "../firebase";
 import useAuth from "../hooks/useAuth";
-import { findCellTable } from "../selector";
+import { findCellTable } from "../actions";
 
 import TableModal from "./table-modal.component";
 import Table from "./table.component";
@@ -15,14 +15,13 @@ const LayoutEditor = () => {
   const { cellCount, draggedTable, tables } = state;
   
   useEffect(() => {
-    async function fetchData() {
-        if (user) {
-          const tables = await getTables(user.uid);
-          dispatch({ type: "SET_TABLES", payload: tables });
-        }
-      }
-      fetchData();
+    if(user) updateTables();
   }, [user]);
+  
+  const updateTables = async () => {
+    const tables = await getTables(user.uid);
+    dispatch({ type: "SET_TABLES", payload: tables });
+  }
 
   const cellClickHandler = (cellNumber) => {
     dispatch({ type: "SELECT_CELL", payload: cellNumber });
@@ -30,7 +29,10 @@ const LayoutEditor = () => {
 
   function dropHandler(cell) {
     // move dragged table to that cell
-    updateTable(draggedTable, { cell });
+    updateTable(draggedTable, { cell }).then(() => {
+      // refresh grid
+      updateTables();
+    });
   }
 
   // generate a cell grid

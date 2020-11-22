@@ -1,5 +1,3 @@
-import {findTableByNumber} from './selector';
-
 const Reducer = (state, action) => {
     switch (action.type) {
         case 'SELECT_CELL':

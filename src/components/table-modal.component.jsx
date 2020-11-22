@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store";
 import { createTable, updateTable, deleteTable, getTables } from "../firebase";
 import useAuth from "../hooks/useAuth";
-import {findCellTable} from '../selector';
+import {findCellTable} from '../actions';
 
 import Modal from "@material-ui/core/Modal";
 import { makeStyles } from "@material-ui/core/styles";
@@ -45,14 +45,14 @@ export default function TableModal() {
 
   const classes = useStyles();
 
+  const handleClose = () => {
+    dispatch({ type: "SELECT_CELL", payload: null });
+  };
+
   const updateTables = async () => {
     const tables = await getTables(user.uid);
     dispatch({ type: "SET_TABLES", payload: tables });
   }
-
-  const handleClose = () => {
-    dispatch({ type: "SELECT_CELL", payload: null });
-  };
 
   const handleSave = () => {
     let promise;
@@ -66,7 +66,6 @@ export default function TableModal() {
   };
 
   const handleDelete = () => {
-    // sometimes doesn't work for some reason
     let promise = deleteTable(table.id);
     promise.then(() => {
       updateTables();
