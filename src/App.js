@@ -2,11 +2,11 @@ import './App.css';
 import React from "react";
 import {Switch, Route} from 'react-router-dom'
 
-import SignIn from './components/sign-in.component'
-import SignUp from './components/sign-up.component'
+import SignIn from './components/sign-in'
+import SignUp from './components/sign-up'
 import useAuth from './hooks/useAuth'
-import RestaurantName from './components/restaurant-name.component';
-import Dashboard from './components/dashboard.component';
+import RestaurantName from './components/restaurant-name';
+import Dashboard from './components/dashboard';
 
 function App() {
   const user = useAuth();

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import {Switch, Route, Link} from 'react-router-dom'
+import {Switch, Route, Link, useHistory} from 'react-router-dom'
 import {auth} from '../firebase'
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -26,8 +26,8 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
-import LayoutEditor from './layout-editor.component';
-import Reservations from './reservations.component';
+import LayoutEditor from './layout-editor';
+import Reservations from './reservations';
 
 const drawerWidth = 240;
 
@@ -119,6 +119,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard() {
   const classes = useStyles();
+  const history = useHistory();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -129,8 +130,7 @@ export default function Dashboard() {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   const handleSignOut = () => {
-    // add redirect to /
-    auth.signOut();
+    auth.signOut().then(() => {history.push('/')});
   }
 
   return (
@@ -209,13 +209,16 @@ export default function Dashboard() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
+            <Grid item xs={12} md={12} lg={12}>
               <Paper className={classes.paper}>
               <Switch>
                 <Route exact path="/" component={LayoutEditor}></Route>
                 <Route exact path="/reservations" component={Reservations}></Route>
+                <Route exact path="/reservations/:table" component={Reservations}></Route>
                 <Route exact path="/report" component={LayoutEditor}></Route>
               </Switch>
               </Paper>
+            </Grid>
           </Grid>
         </Container>
       </main>

@@ -5,7 +5,7 @@ import useAuth from "../hooks/useAuth";
 import { findCellTable } from "../actions";
 import { useHistory } from "react-router-dom";
 
-import Table from "./table.component";
+import Table from "./table";
 
 import "../styles/grid.style.scss";
 

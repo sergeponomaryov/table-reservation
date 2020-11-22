@@ -4,8 +4,8 @@ import { getTables, updateTable } from "../firebase";
 import useAuth from "../hooks/useAuth";
 import { findCellTable } from "../actions";
 
-import TableModal from "./table-modal.component";
-import Table from "./table.component";
+import TableModal from "./table-modal";
+import Table from "./table";
 
 import "../styles/grid.style.scss";
 
