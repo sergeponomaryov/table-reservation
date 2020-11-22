@@ -16,7 +16,7 @@ function App() {
     <div className="App">
     <Switch>
       <Route path="/sign-up" component={SignUp}></Route>
-      <Route exact path="/" render={
+      <Route path="/" render={
         () => user ?
         (restaurantName ? <Dashboard /> : <RestaurantName />)
         : (<SignIn />)

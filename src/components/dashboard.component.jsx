@@ -1,6 +1,8 @@
 
 import React from 'react';
 import clsx from 'clsx';
+import {Switch, Route, Link} from 'react-router-dom'
+import {auth} from '../firebase'
 
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,7 +13,6 @@ import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
@@ -109,6 +110,10 @@ const useStyles = makeStyles((theme) => ({
   fixedHeight: {
     height: 240,
   },
+  menuLink: {
+    color: 'rgba(0,0,0,0.87)',
+    textDecoration: 'none'
+  }
 }));
 
 export default function Dashboard() {
@@ -121,6 +126,10 @@ export default function Dashboard() {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+  const handleSignOut = () => {
+    auth.signOut();
+  }
 
   return (
     <div className={classes.root}>
@@ -155,28 +164,34 @@ export default function Dashboard() {
         </div>
         <Divider />
         <List>
+            <Link to="/" className={classes.menuLink}>
             <ListItem button>
             <ListItemIcon>
                 <DashboardIcon />
             </ListItemIcon>
             <ListItemText primary="Layout Editor" />
             </ListItem>
+            </Link>
+            <Link to="/reservations" className={classes.menuLink}>
             <ListItem button>
             <ListItemIcon>
                 <AddIcCallIcon />
             </ListItemIcon>
             <ListItemText primary="Reservations" />
             </ListItem>
+            </Link>
+            <Link to="/report" className={classes.menuLink}>
             <ListItem button>
             <ListItemIcon>
                 <AssessmentIcon />
             </ListItemIcon>
             <ListItemText primary="Report" />
             </ListItem>
+            </Link>
         </List>
         <Divider />
         <List>
-          <ListItem button>
+          <ListItem button onClick={handleSignOut}>
             <ListItemIcon>
                 <ExitToAppIcon />
             </ListItemIcon>
@@ -189,7 +204,11 @@ export default function Dashboard() {
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
               <Paper className={classes.paper}>
-              <LayoutEditor />
+              <Switch>
+                <Route exact path="/" component={LayoutEditor}></Route>
+                <Route exact path="/reservations" component={LayoutEditor}></Route>
+                <Route exact path="/report" component={LayoutEditor}></Route>
+              </Switch>
               </Paper>
           </Grid>
         </Container>
