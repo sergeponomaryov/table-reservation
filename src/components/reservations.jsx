@@ -25,7 +25,7 @@ const Reservations = () => {
   }
 
   const cellClickHandler = (table) => {
-    if(table) history.push(`/reservations/${table.number}`);
+    if(table) history.push(`/reservations/${table.id}`);
   };
 
   // generate a cell grid

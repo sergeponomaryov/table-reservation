@@ -12,6 +12,17 @@ const config = {
   appId: "1:557114353864:web:e3ca1d17be8845e9a6ddfd",
 };
 
+firebase.initializeApp(config);
+
+export const auth = firebase.auth();
+export const db = firebase.firestore();
+
+const provider = new firebase.auth.GoogleAuthProvider();
+provider.setCustomParameters({ prompt: "select_account" });
+export const signInWithGoogle = () => auth.signInWithPopup(provider);
+
+export default firebase;
+
 export const saveUserDocument = async (user, additionalData) => {
   if (!user) return;
   const userRef = db.doc(`users/${user.uid}`);
@@ -53,17 +64,6 @@ const getUserDocument = async (uid) => {
   }
 };
 
-firebase.initializeApp(config);
-
-export const auth = firebase.auth();
-export const db = firebase.firestore();
-
-const provider = new firebase.auth.GoogleAuthProvider();
-provider.setCustomParameters({ prompt: "select_account" });
-export const signInWithGoogle = () => auth.signInWithPopup(provider);
-
-export default firebase;
-
 export const getTables = async (userId) => {
   const snapshot = await db
     .collection("tables")
@@ -97,7 +97,6 @@ export const updateTable = async (id, data) => {
 export const createTable = async (data) => {
   const doc = db.collection("tables").doc();
   // fetch the next table number
-  
   const nextTableNumber = await getNextTableNumber(data.userId);
   data = {number: nextTableNumber, ...data};
   doc.set(data);
@@ -121,4 +120,16 @@ export const getNextTableNumber = async (userId) => {
   } else {
     return 1;
   }
+};
+
+export const getTableReservations = async (tableId) => {
+  const snapshot = await db
+    .collection("reservations")
+    .where("tableId", "==", tableId)
+    .get();
+  return snapshot.docs.map((doc) => {
+    const data = doc.data();
+    const id = doc.id;
+    return { id, ...data };
+  });
 };

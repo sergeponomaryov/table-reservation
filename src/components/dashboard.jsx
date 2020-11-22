@@ -28,6 +28,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import LayoutEditor from './layout-editor';
 import Reservations from './reservations';
+import TableReservations from './table-reservations';
 
 const drawerWidth = 240;
 
@@ -150,7 +151,7 @@ export default function Dashboard() {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
               <Switch>
                 <Route exact path="/" render={() => ('Layout Editor')}></Route>
-                <Route exact path="/reservations" render={() => ('Reservations')}></Route>
+                <Route path="/reservations" render={() => ('Reservations')}></Route>
                 <Route exact path="/report" render={() => ('Report')}></Route>
               </Switch>
           </Typography>
@@ -214,7 +215,7 @@ export default function Dashboard() {
               <Switch>
                 <Route exact path="/" component={LayoutEditor}></Route>
                 <Route exact path="/reservations" component={Reservations}></Route>
-                <Route exact path="/reservations/:table" component={Reservations}></Route>
+                <Route exact path="/reservations/:tableId" component={TableReservations}></Route>
                 <Route exact path="/report" component={LayoutEditor}></Route>
               </Switch>
               </Paper>
