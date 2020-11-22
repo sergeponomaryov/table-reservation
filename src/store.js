@@ -5,7 +5,8 @@ const initialState = {
     selectedCell: null,
     cellCount: 150,
     tables: [],
-    draggedTable: null
+    draggedTable: null,
+    loading: true
 };
 
 export const Store = ({children}) => {

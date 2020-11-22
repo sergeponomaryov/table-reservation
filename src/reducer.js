@@ -15,6 +15,11 @@ const Reducer = (state, action) => {
                 ...state,
                 tables: action.payload
             };
+        case 'SET_FIREBASE_LOADING':
+            return {
+                ...state,
+                loading: action.payload
+            };
     }
 };
 

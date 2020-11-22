@@ -1,6 +1,9 @@
 import './App.css';
-import React from "react";
+import React, {useContext} from "react";
+import { Context } from "./store";
 import {Switch, Route} from 'react-router-dom'
+
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import SignIn from './components/sign-in'
 import SignUp from './components/sign-up'
@@ -11,9 +14,14 @@ import Dashboard from './components/dashboard';
 function App() {
   const user = useAuth();
   const {restaurantName} = user || {}
+  const [state, dispatch] = useContext(Context);
+  const {loading} = state;
 
   return (
     <div className="App">
+    { loading ?
+    <CircularProgress />
+    :
     <Switch>
       <Route path="/sign-up" component={SignUp}></Route>
       <Route path="/" render={
@@ -22,6 +30,7 @@ function App() {
         : (<SignIn />)
       }></Route>
     </Switch>
+    }
     </div>
   );
 }
