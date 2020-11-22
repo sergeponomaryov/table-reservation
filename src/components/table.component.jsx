@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Table = ({ table }) => {
+const Table = ({ table, draggable }) => {
   const classes = useStyles();
   const [state, dispatch] = useContext(Context);
 
@@ -38,7 +38,7 @@ const Table = ({ table }) => {
       color="secondary"
       overlap="circle"
       badgeContent={table.seats}
-      draggable
+      draggable={draggable}
       onDragStart={(e) => dragStartHandler(e, table)}
     >
       <div className={clsx(classes.shape, classes.shapeCircle)}>

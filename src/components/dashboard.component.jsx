@@ -27,6 +27,7 @@ import AssessmentIcon from '@material-ui/icons/Assessment';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import LayoutEditor from './layout-editor.component';
+import Reservations from './reservations.component';
 
 const drawerWidth = 240;
 
@@ -128,6 +129,7 @@ export default function Dashboard() {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   const handleSignOut = () => {
+    // add redirect to /
     auth.signOut();
   }
 
@@ -146,7 +148,11 @@ export default function Dashboard() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Dashboard
+              <Switch>
+                <Route exact path="/" render={() => ('Layout Editor')}></Route>
+                <Route exact path="/reservations" render={() => ('Reservations')}></Route>
+                <Route exact path="/report" render={() => ('Report')}></Route>
+              </Switch>
           </Typography>
         </Toolbar>
       </AppBar>
@@ -206,7 +212,7 @@ export default function Dashboard() {
               <Paper className={classes.paper}>
               <Switch>
                 <Route exact path="/" component={LayoutEditor}></Route>
-                <Route exact path="/reservations" component={LayoutEditor}></Route>
+                <Route exact path="/reservations" component={Reservations}></Route>
                 <Route exact path="/report" component={LayoutEditor}></Route>
               </Switch>
               </Paper>

@@ -80,7 +80,6 @@ export default function TableModal() {
     }
   };
 
-  // move this modal into another component, so that this page can be reused in management, with another modal
   return (
     <div>
       <Modal

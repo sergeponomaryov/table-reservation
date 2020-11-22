@@ -1,18 +1,19 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { Context } from "../store";
-import { getTables, updateTable } from "../firebase";
+import { getTables } from "../firebase";
 import useAuth from "../hooks/useAuth";
 import { findCellTable } from "../actions";
+import { useHistory } from "react-router-dom";
 
-import TableModal from "./table-modal.component";
 import Table from "./table.component";
 
 import "../styles/grid.style.scss";
 
-const LayoutEditor = () => {
+const Reservations = () => {
   const user = useAuth();
   const [state, dispatch] = useContext(Context);
-  const { cellCount, draggedTable, tables } = state;
+  const { cellCount, tables } = state;
+  const history = useHistory();
   
   useEffect(() => {
     if(user) updateTables();
@@ -23,17 +24,9 @@ const LayoutEditor = () => {
     dispatch({ type: "SET_TABLES", payload: tables });
   }
 
-  const cellClickHandler = (cellNumber) => {
-    dispatch({ type: "SELECT_CELL", payload: cellNumber });
+  const cellClickHandler = (table) => {
+    if(table) history.push(`/reservations/${table.number}`);
   };
-
-  function dropHandler(cell) {
-    // move dragged table to that cell
-    updateTable(draggedTable, { cell }).then(() => {
-      // refresh grid
-      updateTables();
-    });
-  }
 
   // generate a cell grid
   let cells = [];
@@ -51,19 +44,16 @@ const LayoutEditor = () => {
               className="grid-item"
               key={i}
               onClick={() => {
-                cellClickHandler(i);
+                cellClickHandler(table);
               }}
-              onDrop={() => dropHandler(i)}
-              onDragOver={(e) => e.preventDefault()}
             >
-              {table ? <Table table={table} draggable={true} /> : ""}
+              {table ? <Table table={table} draggable={false} /> : ""}
             </div>
           );
         })}
       </div>
-      <TableModal />
     </div>
   );
 };
 
-export default LayoutEditor;
+export default Reservations;
