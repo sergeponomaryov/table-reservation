@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../../store";
-import { getTableByCell, createTable, updateTable, deleteTable } from "../../firebase";
+import { createTable, updateTable, deleteTable, getTables } from "../../firebase";
 import useAuth from "../../hooks/useAuth";
 import {findCellTable} from '../../selector';
 
@@ -33,37 +33,32 @@ export default function LayoutTableModal() {
   const [seats, setSeats] = useState();
   const user = useAuth();
 
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     if (selectedCell) {
-  //       const table = await getTableByCell(user.uid, selectedCell);
-  //       setTable(table);
-  //       setSeats(table && table.seats ? table.seats : "");
-  //     }
-  //   }
-  //   fetchData();
-  // }, [selectedCell]);
-
   useEffect(() => {
     setTable(findCellTable(tables, selectedCell));
-    // now update tables in context, which management should bind to
   }, [selectedCell]);
 
-  // const [modalStyle] = React.useState(getModalStyle);
   const classes = useStyles();
+
+  const updateTables = async () => {
+    const tables = await getTables(user.uid);
+    dispatch({ type: "SET_TABLES", payload: tables });
+  }
 
   const handleClose = () => {
     dispatch({ type: "SELECT_CELL", payload: null });
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if(table) updateTable(table.id, { seats });
     else createTable({ cell: selectedCell, userId: user.uid, seats });
+    // now update tables in context, which management should bind to
+    updateTables();
     handleClose();
   };
 
   const handleDelete = () => {
     deleteTable(table.id);
+    updateTables();
     handleClose();
   };
 

@@ -12,24 +12,17 @@ import "./management.style.scss";
 const Management = () => {
   const user = useAuth();
   const [state, dispatch] = useContext(Context);
-  const { cellCount, draggedTable } = state;
-  const [tables, setTables] = useState([]);
-
-  // now i get why storing tables in context didnt load. reducer didnt pass previous state. can retry later if necessary
-  // make sure updates from modal affect grid. Or dont bother storing any back end data on front end and always go thru firestore.
-
-  // load tables from back end
-  // make sure this doesnt listen all the time, we are exceeding quota. tried adding user dependency
+  const { cellCount, draggedTable, tables } = state;
+  
   useEffect(() => {
     async function fetchData() {
         if (user) {
           const tables = await getTables(user.uid);
-          setTables(tables);
           dispatch({ type: "SET_TABLES", payload: tables });
         }
       }
       fetchData();
-  }, [user]);
+  });
 
   const cellClickHandler = (cellNumber) => {
     dispatch({ type: "SELECT_CELL", payload: cellNumber });
