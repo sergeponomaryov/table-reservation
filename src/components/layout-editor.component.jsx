@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Context } from "../../store";
-import { getTables, updateTable } from "../../firebase";
-import useAuth from "../../hooks/useAuth";
-import { findCellTable } from "../../selector";
+import { Context } from "../store";
+import { getTables, updateTable } from "../firebase";
+import useAuth from "../hooks/useAuth";
+import { findCellTable } from "../selector";
 
-import LayoutTableModal from "../../components/layout-table-modal/layout-table-modal.component";
-import Table from "../../components/table/table.component";
+import TableModal from "./table-modal.component";
+import Table from "./table.component";
 
-import "./management.style.scss";
+import "../styles/management.style.scss";
 
-const Management = () => {
+const LayoutEditor = () => {
   const user = useAuth();
   const [state, dispatch] = useContext(Context);
   const { cellCount, draggedTable, tables } = state;
@@ -59,9 +59,9 @@ const Management = () => {
           );
         })}
       </div>
-      <LayoutTableModal />
+      <TableModal />
     </div>
   );
 };
 
-export default Management;
+export default LayoutEditor;

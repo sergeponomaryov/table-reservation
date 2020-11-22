@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { saveUserDocument } from "../../firebase";
-import useAuth from "../../hooks/useAuth";
+import { saveUserDocument } from "../firebase";
+import useAuth from "../hooks/useAuth";
 
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";

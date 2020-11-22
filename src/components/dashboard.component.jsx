@@ -25,7 +25,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 
-import Management from '../management/management.component';
+import LayoutEditor from './layout-editor.component';
 
 const drawerWidth = 240;
 
@@ -187,7 +187,7 @@ export default function Dashboard() {
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
               <Paper className={classes.paper}>
-              <Management></Management>
+              <LayoutEditor />
               </Paper>
           </Grid>
         </Container>

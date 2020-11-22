@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { auth, saveUserDocument } from "../../firebase";
+import { auth, saveUserDocument } from "../firebase";
 
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";

@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Context } from "../../store";
-import { createTable, updateTable, deleteTable, getTables } from "../../firebase";
-import useAuth from "../../hooks/useAuth";
-import {findCellTable} from '../../selector';
+import { Context } from "../store";
+import { createTable, updateTable, deleteTable, getTables } from "../firebase";
+import useAuth from "../hooks/useAuth";
+import {findCellTable} from '../selector';
 
 import Modal from "@material-ui/core/Modal";
 import { makeStyles } from "@material-ui/core/styles";
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function LayoutTableModal() {
+export default function TableModal() {
   const [state, dispatch] = useContext(Context);
   const { selectedCell, tables } = state;
   const [table, setTable] = useState(null);
