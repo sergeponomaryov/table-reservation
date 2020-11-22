@@ -22,7 +22,7 @@ const Management = () => {
         }
       }
       fetchData();
-  });
+  }, [user]);
 
   const cellClickHandler = (cellNumber) => {
     dispatch({ type: "SELECT_CELL", payload: cellNumber });

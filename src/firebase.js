@@ -91,7 +91,7 @@ export const getTableByCell = async (userId, cell) => {
 
 export const updateTable = async (id, data) => {
   const doc = db.collection("tables").doc(id);
-  doc.set(data, { merge: true });
+  return doc.set(data, { merge: true });
 }
 
 export const createTable = async (data) => {
@@ -103,8 +103,8 @@ export const createTable = async (data) => {
   doc.set(data);
 };
 
-export const deleteTable = (id) => {
-  db.collection("tables").doc(id).delete();
+export const deleteTable = async (id) => {
+  return db.collection("tables").doc(id).delete();
 };
 
 export const getNextTableNumber = async (userId) => {

@@ -38,6 +38,7 @@ export default function LayoutTableModal() {
       const table = await findCellTable(tables, selectedCell);
       setTable(table);
       if(table) setSeats(table.seats);
+      else setSeats();
     }
     fetchData();
   }, [selectedCell]);
@@ -53,18 +54,24 @@ export default function LayoutTableModal() {
     dispatch({ type: "SELECT_CELL", payload: null });
   };
 
-  const handleSave = async () => {
-    if(table) updateTable(table.id, { seats });
-    else createTable({ cell: selectedCell, userId: user.uid, seats });
+  const handleSave = () => {
+    let promise;
+    if(table) promise = updateTable(table.id, { seats });
+    else promise = createTable({ cell: selectedCell, userId: user.uid, seats });
     // now update tables in context, which management should bind to
-    updateTables();
-    handleClose();
+    promise.then(() => {
+      updateTables();
+      handleClose();
+    })
   };
 
   const handleDelete = () => {
-    deleteTable(table.id);
-    updateTables();
-    handleClose();
+    // sometimes doesn't work for some reason
+    let promise = deleteTable(table.id);
+    promise.then(() => {
+      updateTables();
+      handleClose();
+    });
   };
 
   const onChangeHandler = (event) => {

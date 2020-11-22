@@ -1,6 +1,7 @@
 
 import React from 'react';
 import clsx from 'clsx';
+
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
@@ -17,10 +18,13 @@ import Grid from '@material-ui/core/Grid';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import AddIcCallIcon from '@material-ui/icons/AddIcCall';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import DashboardIcon from '@material-ui/icons/Dashboard';
+import AssessmentIcon from '@material-ui/icons/Assessment';
+
 import Management from '../management/management.component';
 
 const drawerWidth = 240;
@@ -160,8 +164,20 @@ export default function Dashboard() {
             <ListItemIcon>
                 <DashboardIcon />
             </ListItemIcon>
-            <ListItemText primary="Dashboard" />
-            </ListItem>    
+            <ListItemText primary="Layout" />
+            </ListItem>
+            <ListItem button>
+            <ListItemIcon>
+                <AddIcCallIcon />
+            </ListItemIcon>
+            <ListItemText primary="Reservations" />
+            </ListItem>
+            <ListItem button>
+            <ListItemIcon>
+                <AssessmentIcon />
+            </ListItemIcon>
+            <ListItemText primary="Reports" />
+            </ListItem>
         </List>
         <Divider />
         <List></List>
