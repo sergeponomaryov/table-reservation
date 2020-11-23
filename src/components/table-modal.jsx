@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store";
-import { createTable, updateTable, deleteTable, getTables } from "../firebase";
+import { createTable, updateTable, deleteTable } from "../firebase";
 import useAuth from "../hooks/useAuth";
 import {findCellTable} from '../actions';
 
@@ -49,28 +49,17 @@ export default function TableModal() {
     dispatch({ type: "SELECT_CELL", payload: null });
   };
 
-  const updateTables = async () => {
-    const tables = await getTables(user.uid);
-    dispatch({ type: "SET_TABLES", payload: tables });
-  }
-
-  const handleSave = () => {
-    let promise;
-    if(table) promise = updateTable(table.id, { seats });
-    else promise = createTable({ cell: selectedCell, userId: user.uid, seats });
-    // now update tables in context, which management should bind to
-    promise.then(() => {
-      updateTables();
-      handleClose();
-    })
+  const handleSave = async () => {
+    if(table) await updateTable(table.id, { seats });
+    else await createTable({ cell: selectedCell, userId: user.uid, seats });
+    dispatch({ type: "REFRESH_TABLES" });
+    handleClose();
   };
 
-  const handleDelete = () => {
-    let promise = deleteTable(table.id);
-    promise.then(() => {
-      updateTables();
-      handleClose();
-    });
+  const handleDelete = async () => {
+    await deleteTable(table.id);
+    dispatch({ type: "REFRESH_TABLES" });
+    handleClose();
   };
 
   const onChangeHandler = (event) => {

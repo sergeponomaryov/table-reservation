@@ -2,14 +2,16 @@ import React, {createContext, useReducer} from "react";
 import Reducer from './reducer'
 
 const initialState = {
+    firebaseLoading: true,
     selectedCell: null,
     cellCount: 150,
     tables: [],
     draggedTable: null,
-    firebaseLoading: true,
+    refreshTables: false,
     openReservationModal: false,
     selectedReservation: null,
-    tableReservations: []
+    tableReservations: [],
+    refreshReservations: false
 };
 
 export const Store = ({children}) => {

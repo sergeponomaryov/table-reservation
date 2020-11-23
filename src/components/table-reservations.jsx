@@ -1,7 +1,7 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import { Context } from "../store";
 import {useParams} from 'react-router-dom';
-import useReservations from '../hooks/useReservations'
+import useFetchReservations from '../hooks/useFetchReservations'
 
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -26,7 +26,7 @@ export default function TableReservations() {
   const classes = useStyles();
 
   let { tableId } = useParams();
-  useReservations(tableId);
+  useFetchReservations(tableId);
   const [state, dispatch] = useContext(Context);
   const {tableReservations} = state;
 

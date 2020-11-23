@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store";
-import { getTables, updateTable } from "../firebase";
+import { updateTable } from "../firebase";
 import useAuth from "../hooks/useAuth";
+import useFetchTables from "../hooks/useFetchTables";
 import { findCellTable } from "../actions";
 
 import TableModal from "./table-modal";
@@ -11,17 +12,9 @@ import "../styles/grid.style.scss";
 
 const LayoutEditor = () => {
   const user = useAuth();
+  useFetchTables(); // fetch tables from back end
   const [state, dispatch] = useContext(Context);
   const { cellCount, draggedTable, tables } = state;
-  
-  useEffect(() => {
-    if(user) updateTables();
-  }, [user]);
-  
-  const updateTables = async () => {
-    const tables = await getTables(user.uid);
-    dispatch({ type: "SET_TABLES", payload: tables });
-  }
 
   const cellClickHandler = (cellNumber) => {
     dispatch({ type: "SELECT_CELL", payload: cellNumber });
@@ -30,8 +23,7 @@ const LayoutEditor = () => {
   function dropHandler(cell) {
     // move dragged table to that cell
     updateTable(draggedTable, { cell }).then(() => {
-      // refresh grid
-      updateTables();
+      dispatch({ type: "REFRESH_TABLES" });
     });
   }
 
