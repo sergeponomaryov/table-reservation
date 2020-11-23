@@ -4,12 +4,10 @@ import { updateTable } from "../firebase";
 import useFindTable from '../hooks/useFindTable';
 import Table from "./table";
 
-const GridCell = (props) => {
-    // change i to cell
-    const i = props.cell;
+const LayoutGridCell = ({cell}) => {
     const [state, dispatch] = useContext(Context);
     const { draggedTable } = state;
-    const table = useFindTable(i);
+    const table = useFindTable(cell);
   
     const cellClickHandler = (cellNumber) => {
         dispatch({ type: "SELECT_CELL", payload: cellNumber });
@@ -25,11 +23,11 @@ const GridCell = (props) => {
     return (
         <div
           className="grid-item"
-          key={i}
+          key={cell}
           onClick={() => {
-            cellClickHandler(i);
+            cellClickHandler(cell);
           }}
-          onDrop={() => dropHandler(i)}
+          onDrop={() => dropHandler(cell)}
           onDragOver={(e) => e.preventDefault()}
         >
           {table ? <Table table={table} draggable={true} /> : ""}
@@ -37,4 +35,4 @@ const GridCell = (props) => {
       );
 }
 
-export default GridCell;
+export default LayoutGridCell;

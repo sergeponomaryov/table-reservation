@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store";
 import { createTable, updateTable, deleteTable, getTables } from "../firebase";
 import useAuth from "../hooks/useAuth";
-import {findCellTable} from '../actions';
 
 import Modal from "@material-ui/core/Modal";
 import { makeStyles } from "@material-ui/core/styles";

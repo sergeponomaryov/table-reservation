@@ -3,7 +3,7 @@ import useFetchTables from "../hooks/useFetchTables";
 import useCellGrid from "../hooks/useCellGrid";
 
 import TableModal from "./table-modal";
-import GridCell from './grid-cell'
+import LayoutGridCell from './layout-grid-cell'
 
 import "../styles/grid.style.scss";
 
@@ -16,7 +16,7 @@ const LayoutEditor = () => {
     <div>
       <div className="grid-container">
         {cells.map((val, i) => {
-          return (<GridCell key={i} cell={i} />)
+          return (<LayoutGridCell key={i} cell={i} />)
         })}
       </div>
       <TableModal />
