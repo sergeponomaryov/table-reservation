@@ -5,6 +5,7 @@ import useFindTable from '../hooks/useFindTable';
 import Table from "./table";
 
 const GridCell = (props) => {
+    // change i to cell
     const i = props.cell;
     const [state, dispatch] = useContext(Context);
     const { draggedTable } = state;

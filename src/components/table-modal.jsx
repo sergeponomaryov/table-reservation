@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store";
 import { createTable, updateTable, deleteTable } from "../firebase";
 import useAuth from "../hooks/useAuth";
+import useFindTable from '../hooks/useFindTable';
 import {findCellTable} from '../actions';
 
 import Modal from "@material-ui/core/Modal";
@@ -27,21 +28,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function TableModal() {
-  const [state, dispatch] = useContext(Context);
-  const { selectedCell, tables } = state;
-  const [table, setTable] = useState(null);
-  const [seats, setSeats] = useState();
   const user = useAuth();
+  const [state, dispatch] = useContext(Context);
+  const { selectedCell } = state;
+  const table = useFindTable(selectedCell);
+  const [seats, setSeats] = useState();
 
   useEffect(() => {
-    async function fetchData() {
-      const table = await findCellTable(tables, selectedCell);
-      setTable(table);
-      if(table) setSeats(table.seats);
-      else setSeats();
-    }
-    fetchData();
-  }, [selectedCell]);
+    setSeats(table ? table.seats : "");
+  }, [table]);
+
+  console.log(table);
 
   const classes = useStyles();
 
@@ -91,7 +88,7 @@ export default function TableModal() {
               label="Number of seats"
               type="number"
               autoFocus
-              value={seats || ""}
+              value={seats}
               onChange={(event) => onChangeHandler(event)}
             />
             <Button

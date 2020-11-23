@@ -7,8 +7,9 @@ const useFindTable = (cell) => {
   const [table, setTable] = useState(null);
 
   useEffect(() => {
+    console.log("looking for "+cell);
     setTable(tables.find(obj => {return obj.cell === cell}));
-  }, [tables]);
+  }, [tables, cell]);
 
   return table;
 };
