@@ -20,6 +20,16 @@ const Reducer = (state, action) => {
                 ...state,
                 firebaseLoading: action.payload
             };
+        case 'OPEN_RESERVATION_MODAL':
+            return {
+                ...state,
+                openReservationModal: action.payload
+            };
+        case 'SELECT_RESERVATION':
+            return {
+                ...state,
+                selectedReservation: action.payload
+            };
     }
 };
 

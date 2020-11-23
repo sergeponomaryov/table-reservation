@@ -6,7 +6,9 @@ const initialState = {
     cellCount: 150,
     tables: [],
     draggedTable: null,
-    firebaseLoading: true
+    firebaseLoading: true,
+    openReservationModal: false,
+    selectedReservation: null
 };
 
 export const Store = ({children}) => {
