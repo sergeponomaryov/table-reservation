@@ -8,7 +8,8 @@ const initialState = {
     draggedTable: null,
     firebaseLoading: true,
     openReservationModal: false,
-    selectedReservation: null
+    selectedReservation: null,
+    tableReservations: []
 };
 
 export const Store = ({children}) => {

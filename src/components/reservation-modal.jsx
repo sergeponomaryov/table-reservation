@@ -24,13 +24,22 @@ const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(2, 0, 0),
   },
+  dateField: {
+    marginBottom: theme.spacing(2),
+    width: 200,
+  },
+  textField: {
+    marginBottom: theme.spacing(1)
+  }
 }));
 
 export default function ReservationModal() {
   const [state, dispatch] = useContext(Context);
   const { selectedReservation, openReservationModal } = state;
-  const [table, setTable] = useState(null);
-  const [seats, setSeats] = useState();
+  const [reservation, setReservation] = useState(null);
+  const [date, setDate] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const user = useAuth();
 
   const classes = useStyles();
@@ -53,8 +62,14 @@ export default function ReservationModal() {
 
   const onChangeHandler = (event) => {
     const { name, value } = event.currentTarget;
-    if (name === "seats") {
-      setSeats(parseInt(value));
+    if (name === "date") {
+      setDate(value);
+    }
+    else if (name === "name") {
+      setName(value);
+    }
+    else if (name === "phone") {
+      setPhone(value);
     }
   };
 
@@ -72,15 +87,36 @@ export default function ReservationModal() {
 
           <form className={classes.form} noValidate onSubmit={(e) => {e.preventDefault(); handleSave();}}>
             <TextField
-              name="seats"
+              id="datetime-local"
+              label="Date and time"
+              type="datetime-local"
+              // defaultValue="2017-05-24T10:30"
+              className={classes.dateField}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              value={date}
+            />
+            <TextField
+              name="name"
               variant="outlined"
+              className={classes.textField}
               required
               fullWidth
-              id="seats"
-              label="Number of seats"
-              type="number"
-              autoFocus
-              value={seats || ""}
+              label="Customer name"
+              type="text"
+              value={name}
+              onChange={(event) => onChangeHandler(event)}
+            />
+            <TextField
+              name="phone"
+              variant="outlined"
+              className={classes.textField}
+              required
+              fullWidth
+              label="Contact phone"
+              type="text"
+              value={phone}
               onChange={(event) => onChangeHandler(event)}
             />
             <Button
