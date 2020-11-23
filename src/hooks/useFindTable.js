@@ -1,0 +1,16 @@
+import { useEffect, useContext, useState } from 'react';
+import { Context } from "../store";
+
+const useFindTable = (cell) => {
+  const [state, dispatch] = useContext(Context);
+  const {tables} = state;
+  const [table, setTable] = useState(null);
+
+  useEffect(() => {
+    setTable(tables.find(obj => {return obj.cell === cell}));
+  }, [tables]);
+
+  return table;
+};
+
+export default useFindTable;

@@ -12,7 +12,7 @@ import "../styles/grid.style.scss";
 const Reservations = () => {
   const user = useAuth();
   const [state, dispatch] = useContext(Context);
-  const { cellCount, tables } = state;
+  const { tables } = state;
   const history = useHistory();
   
   useEffect(() => {
@@ -30,7 +30,7 @@ const Reservations = () => {
 
   // generate a cell grid
   let cells = [];
-  for (let i = 1; i <= cellCount; i++) {
+  for (let i = 1; i <= 150; i++) {
     cells.push([]);
   }
 

@@ -4,7 +4,6 @@ import Reducer from './reducer'
 const initialState = {
     firebaseLoading: true,
     selectedCell: null,
-    cellCount: 150,
     tables: [],
     draggedTable: null,
     refreshTables: false,
