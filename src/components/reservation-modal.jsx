@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store";
-import { createTable, updateTable, deleteTable, getTables } from "../firebase";
+import { saveReservation } from "../firebase";
+import {useParams} from 'react-router-dom';
 import useAuth from "../hooks/useAuth";
 
 import Modal from "@material-ui/core/Modal";
@@ -34,12 +35,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ReservationModal() {
   const [state, dispatch] = useContext(Context);
-  const { selectedReservation, openReservationModal } = state;
+  const { selectedReservation, openReservationModal, tableReservations } = state;
   const [reservation, setReservation] = useState(null);
   const [date, setDate] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const user = useAuth();
+  const { tableId } = useParams();
 
   const classes = useStyles();
 
@@ -48,16 +50,46 @@ export default function ReservationModal() {
     dispatch({ type: "SELECT_RESERVATION", payload: null });
   };
 
-  const handleSave = () => {
-    // let promise;
-    // if(table) promise = updateTable(table.id, { seats });
-    // else promise = createTable({ cell: selectedCell, userId: user.uid, seats });
-    // // now update tables in context, which management should bind to
-    // promise.then(() => {
-    //   updateTables();
-    //   handleClose();
-    // })
+  const handleSave = async () => {
+    if(validateForm()) {
+      await saveReservation(reservation ? reservation.id : null, {tableId, name, date, phone});
+      dispatch({ type: "REFRESH_RESERVATIONS" });
+      handleClose();
+    }
   };
+
+  const validateForm = () => {
+    if(!date) {
+      alert("Date is required");
+      return false;
+    }
+    const dateObj = new Date(date);
+    if(typeof dateObj.getMonth !== 'function') {
+      alert("Date is invalid");
+      return false;
+    }
+    if(new Date() > dateObj) {
+      alert("Date is in the past");
+      return false;
+    }
+    if(dateObj.getMinutes() !== 0) {
+      alert("Reservations can only start at the beginning of an hour (eg. 5:00PM, 6:00PM, but not 5:22PM, 5:30PM etc.)");
+      return false;
+    }
+    if(tableReservations.find(obj => {return obj.date.toDate().getTime() === dateObj.getTime()})) {
+      alert("Table is already booked for that time");
+      return false;
+    }
+    if(!name) {
+      alert("Name is required");
+      return false;
+    }
+    if(!phone) {
+      alert("Phone is required");
+      return false;
+    }
+    return true;
+  }
 
   const onChangeHandler = (event) => {
     const { name, value } = event.currentTarget;
@@ -89,12 +121,14 @@ export default function ReservationModal() {
               id="datetime-local"
               label="Date and time"
               type="datetime-local"
+              name="date"
               // defaultValue="2017-05-24T10:30"
               className={classes.dateField}
               InputLabelProps={{
                 shrink: true,
               }}
               value={date}
+              onChange={(event) => onChangeHandler(event)}
             />
             <TextField
               name="name"

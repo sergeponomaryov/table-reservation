@@ -133,3 +133,8 @@ export const getTableReservations = async (tableId) => {
     return { id, ...data };
   });
 };
+
+export const saveReservation = async (id, data) => {
+  const doc = id ? db.collection("reservations").doc(id) : db.collection("reservations").doc();
+  return doc.set(data, { merge: true });
+}
