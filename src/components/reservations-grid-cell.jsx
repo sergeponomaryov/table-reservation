@@ -1,6 +1,6 @@
 import { useHistory } from "react-router-dom";
 import useFindTable from '../hooks/useFindTable';
-import Table from "./table";
+import GridTable from "./grid-table";
 
 const ReservationsGridCell = ({cell}) => {
     const history = useHistory();
@@ -18,7 +18,7 @@ const ReservationsGridCell = ({cell}) => {
           cellClickHandler(table);
         }}
       >
-        {table ? <Table table={table} draggable={false} /> : ""}
+        {table ? <GridTable table={table} draggable={false} /> : ""}
       </div>
     );
 }

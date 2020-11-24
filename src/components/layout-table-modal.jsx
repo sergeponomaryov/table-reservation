@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TableModal() {
+export default function LayoutTableModal() {
   const user = useAuth();
   const [state, dispatch] = useContext(Context);
   const { selectedCell } = state;

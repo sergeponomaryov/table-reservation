@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Table = ({ table, draggable }) => {
+const GridTable = ({ table, draggable }) => {
   const classes = useStyles();
   const [state, dispatch] = useContext(Context);
 
@@ -48,4 +48,4 @@ const Table = ({ table, draggable }) => {
   );
 };
 
-export default Table;
+export default GridTable;

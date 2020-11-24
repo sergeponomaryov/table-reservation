@@ -1,7 +1,7 @@
 import React from "react";
 import useCellGrid from "../hooks/useCellGrid";
 
-import ReservationsModal from "./table-modal";
+import ReservationsModal from "./layout-table-modal";
 import ReservationsGridCell from './reservations-grid-cell'
 
 import "../styles/grid.style.scss";

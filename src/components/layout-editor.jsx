@@ -2,7 +2,7 @@ import React from "react";
 import useFetchTables from "../hooks/useFetchTables";
 import useCellGrid from "../hooks/useCellGrid";
 
-import TableModal from "./table-modal";
+import LayoutTableModal from "./layout-table-modal";
 import LayoutGridCell from './layout-grid-cell'
 
 import "../styles/grid.style.scss";
@@ -17,7 +17,7 @@ const LayoutEditor = () => {
           return (<LayoutGridCell key={i} cell={i} />)
         })}
       </div>
-      <TableModal />
+      <LayoutTableModal />
     </div>
   );
 };

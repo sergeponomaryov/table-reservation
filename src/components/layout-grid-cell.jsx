@@ -2,7 +2,7 @@ import {useContext} from 'react';
 import { Context } from "../store";
 import { updateTable } from "../firebase";
 import useFindTable from '../hooks/useFindTable';
-import Table from "./table";
+import GridTable from "./grid-table";
 
 const LayoutGridCell = ({cell}) => {
     const [state, dispatch] = useContext(Context);
@@ -30,7 +30,7 @@ const LayoutGridCell = ({cell}) => {
           onDrop={() => dropHandler(cell)}
           onDragOver={(e) => e.preventDefault()}
         >
-          {table ? <Table table={table} draggable={true} /> : ""}
+          {table ? <GridTable table={table} draggable={true} /> : ""}
         </div>
       );
 }
