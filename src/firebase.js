@@ -138,3 +138,7 @@ export const saveReservation = async (id, data) => {
   const doc = id ? db.collection("reservations").doc(id) : db.collection("reservations").doc();
   return doc.set(data, { merge: true });
 }
+
+export const deleteReservation = async (id) => {
+  return db.collection("reservations").doc(id).delete();
+};

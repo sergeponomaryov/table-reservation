@@ -1,7 +1,8 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 import { Context } from "../store";
 import {useParams} from 'react-router-dom';
 import useFetchReservations from '../hooks/useFetchReservations'
+import {deleteReservation} from '../firebase'
 
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -42,6 +43,13 @@ export default function TableReservations() {
     dispatch({ type: "SELECT_RESERVATION", payload: reservation });
   };
 
+  const clickDeleteHandler = async (reservation) => {
+    if (window.confirm('Please confirm deletion')) {
+      await deleteReservation(reservation.id);
+      dispatch({ type: "REFRESH_RESERVATIONS" });
+    }
+  };
+
   return (
     <div>
     <IconButton color="primary" aria-label="Create reservation" onClick={clickAddHandler}>
@@ -73,7 +81,7 @@ export default function TableReservations() {
                 <IconButton color="primary" aria-label="Update" onClick={() => {clickUpdateHandler(reservation)}}>
                   <EditIcon />
                 </IconButton>
-                <IconButton color="primary" aria-label="Delete" onClick={clickAddHandler}>
+                <IconButton color="primary" aria-label="Delete" onClick={() => {clickDeleteHandler(reservation)}}>
                   <DeleteIcon />
                 </IconButton>
               </TableCell>

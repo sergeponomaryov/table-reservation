@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store";
 import { saveReservation } from "../firebase";
 import {useParams} from 'react-router-dom';
-import useAuth from "../hooks/useAuth";
 import firebase from "firebase/app";
 
 import Modal from "@material-ui/core/Modal";
@@ -38,11 +37,9 @@ export default function ReservationModal() {
   const [state, dispatch] = useContext(Context);
   const { openReservationModal, tableReservations } = state;
   const reservation = state.selectedReservation;
-  // const [reservation, setReservation] = useState(null);
   const [date, setDate] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  // const user = useAuth();
   const { tableId } = useParams();
 
   const classes = useStyles();
