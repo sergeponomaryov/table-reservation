@@ -13,6 +13,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton'
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import ReservationModal from './reservation-modal'
 
@@ -35,6 +37,11 @@ export default function TableReservations() {
     dispatch({ type: "SELECT_RESERVATION", payload: null });
   };
 
+  const clickUpdateHandler = (reservation) => {
+    dispatch({ type: "OPEN_RESERVATION_MODAL", payload: true });
+    dispatch({ type: "SELECT_RESERVATION", payload: reservation });
+  };
+
   return (
     <div>
     <IconButton color="primary" aria-label="Create reservation" onClick={clickAddHandler}>
@@ -48,6 +55,7 @@ export default function TableReservations() {
             <TableCell>Time</TableCell>
             <TableCell>Name</TableCell>
             <TableCell>Phone</TableCell>
+            <TableCell align="right">Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -61,6 +69,14 @@ export default function TableReservations() {
               </TableCell>
               <TableCell>{reservation.name}</TableCell>
               <TableCell>{reservation.phone}</TableCell>
+              <TableCell align="right">
+                <IconButton color="primary" aria-label="Update" onClick={() => {clickUpdateHandler(reservation)}}>
+                  <EditIcon />
+                </IconButton>
+                <IconButton color="primary" aria-label="Delete" onClick={clickAddHandler}>
+                  <DeleteIcon />
+                </IconButton>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

@@ -3,6 +3,7 @@ import { Context } from "../store";
 import { saveReservation } from "../firebase";
 import {useParams} from 'react-router-dom';
 import useAuth from "../hooks/useAuth";
+import firebase from "firebase/app";
 
 import Modal from "@material-ui/core/Modal";
 import { makeStyles } from "@material-ui/core/styles";
@@ -35,15 +36,22 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ReservationModal() {
   const [state, dispatch] = useContext(Context);
-  const { selectedReservation, openReservationModal, tableReservations } = state;
-  const [reservation, setReservation] = useState(null);
+  const { openReservationModal, tableReservations } = state;
+  const reservation = state.selectedReservation;
+  // const [reservation, setReservation] = useState(null);
   const [date, setDate] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const user = useAuth();
+  // const user = useAuth();
   const { tableId } = useParams();
 
   const classes = useStyles();
+
+  useEffect(() => {
+    setDate(reservation ? reservation.date.toDate().toISOString().slice(0,-1) : "");
+    setName(reservation ? reservation.name : "");
+    setPhone(reservation ? reservation.phone : "");
+  }, [reservation]);
 
   const handleClose = () => {
     dispatch({ type: "OPEN_RESERVATION_MODAL", payload: false });
@@ -52,7 +60,7 @@ export default function ReservationModal() {
 
   const handleSave = async () => {
     if(validateForm()) {
-      await saveReservation(reservation ? reservation.id : null, {tableId, name, date, phone});
+      await saveReservation(reservation ? reservation.id : null, {tableId, name, date: firebase.firestore.Timestamp.fromDate(new Date(date)), phone});
       dispatch({ type: "REFRESH_RESERVATIONS" });
       handleClose();
     }
@@ -114,7 +122,7 @@ export default function ReservationModal() {
         aria-describedby="simple-modal-description"
       >
         <div className={classes.paper}>
-          <h2>Create Reservation</h2>
+          <h2>{reservation ? "Update" : "Create"} Reservation</h2>
 
           <form className={classes.form} noValidate onSubmit={(e) => {e.preventDefault(); handleSave();}}>
             <TextField
