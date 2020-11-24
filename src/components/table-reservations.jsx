@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import { Context } from "../store";
 import {useParams} from 'react-router-dom';
 import useFetchReservations from '../hooks/useFetchReservations'
@@ -16,6 +16,10 @@ import IconButton from '@material-ui/core/IconButton'
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import NativeSelect from '@material-ui/core/NativeSelect'
 
 import ReservationModal from './reservation-modal'
 
@@ -29,7 +33,8 @@ export default function TableReservations() {
   const classes = useStyles();
 
   let { tableId } = useParams();
-  useFetchReservations(tableId);
+  const [filter, setFilter] = useState("all");
+  useFetchReservations(tableId, filter);
   const [state, dispatch] = useContext(Context);
   const {tableReservations} = state;
 
@@ -50,8 +55,20 @@ export default function TableReservations() {
     }
   };
 
+  const onChangeHandler = (event) => {
+    const { name, value } = event.target;
+    if (name === "filter") {
+      setFilter(value);
+    }
+  };
+
   return (
     <div>
+    <NativeSelect id="select" name="filter" value={filter} onChange={(event) => onChangeHandler(event)}>
+      <option value="all">Show All</option>
+      <option value="past">Show Past</option>
+      <option value="future">Show Future</option>
+    </NativeSelect>
     <IconButton color="primary" aria-label="Create reservation" onClick={clickAddHandler}>
     <AddCircleIcon />
     </IconButton>
@@ -67,7 +84,7 @@ export default function TableReservations() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {tableReservations.map((reservation) => (
+          {tableReservations ? tableReservations.map((reservation) => (
             <TableRow key={reservation.id}>
               <TableCell component="th" scope="row">
                 {reservation.date.toDate().toDateString()}
@@ -86,7 +103,7 @@ export default function TableReservations() {
                 </IconButton>
               </TableCell>
             </TableRow>
-          ))}
+          )) : null}
         </TableBody>
       </Table>
     </TableContainer>

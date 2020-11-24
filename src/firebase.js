@@ -122,12 +122,15 @@ export const getNextTableNumber = async (userId) => {
   }
 };
 
-export const getTableReservations = async (tableId) => {
-  const snapshot = await db
+export const getTableReservations = async (tableId, filter) => {
+  let snapshot = db
     .collection("reservations")
     .where("tableId", "==", tableId)
-    .get();
-  return snapshot.docs.map((doc) => {
+    .orderBy("date", "asc");
+  if(filter == "future") snapshot = snapshot.where('date', '>', new Date());
+  else if(filter == "past") snapshot = snapshot.where('date', '<=', new Date());
+  const resp = await snapshot.get();
+  return resp.docs.map((doc) => {
     const data = doc.data();
     const id = doc.id;
     return { id, ...data };
