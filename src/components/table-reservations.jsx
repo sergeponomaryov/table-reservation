@@ -3,6 +3,7 @@ import { Context } from "../store";
 import {useParams} from 'react-router-dom';
 import useFetchReservations from '../hooks/useFetchReservations'
 import {deleteReservation} from '../firebase'
+import { useHistory } from "react-router-dom";
 
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -16,10 +17,8 @@ import IconButton from '@material-ui/core/IconButton'
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
 import NativeSelect from '@material-ui/core/NativeSelect'
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import ReservationModal from './reservation-modal'
 
@@ -37,6 +36,7 @@ export default function TableReservations() {
   useFetchReservations(tableId, filter);
   const [state, dispatch] = useContext(Context);
   const {tableReservations} = state;
+  const history = useHistory();
 
   const clickAddHandler = () => {
     dispatch({ type: "OPEN_RESERVATION_MODAL", payload: true });
@@ -64,6 +64,9 @@ export default function TableReservations() {
 
   return (
     <div>
+    <IconButton color="primary" aria-label="Go back" onClick={() => history.push('/reservations')}>
+      <ArrowBackIcon />
+    </IconButton>
     <NativeSelect id="select" name="filter" value={filter} onChange={(event) => onChangeHandler(event)}>
       <option value="all">Show All</option>
       <option value="past">Show Past</option>
@@ -72,6 +75,7 @@ export default function TableReservations() {
     <IconButton color="primary" aria-label="Create reservation" onClick={clickAddHandler}>
     <AddCircleIcon />
     </IconButton>
+    { tableReservations ?
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
@@ -84,7 +88,7 @@ export default function TableReservations() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {tableReservations ? tableReservations.map((reservation) => (
+          {tableReservations.map((reservation) => (
             <TableRow key={reservation.id}>
               <TableCell component="th" scope="row">
                 {reservation.date.toDate().toDateString()}
@@ -103,10 +107,11 @@ export default function TableReservations() {
                 </IconButton>
               </TableCell>
             </TableRow>
-          )) : null}
+          ))}
         </TableBody>
       </Table>
     </TableContainer>
+    : null}
     <ReservationModal />
     </div>
   );

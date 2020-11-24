@@ -3,6 +3,7 @@ import React from 'react';
 import clsx from 'clsx';
 import {Switch, Route, Link, useHistory} from 'react-router-dom'
 import {auth} from '../firebase'
+import useFetchTables from "../hooks/useFetchTables";
 
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -128,11 +129,13 @@ export default function Dashboard() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   const handleSignOut = () => {
     auth.signOut().then(() => {history.push('/')});
   }
+
+  // fetch tables from back end as soon as app is loaded
+  useFetchTables();
 
   return (
     <div className={classes.root}>

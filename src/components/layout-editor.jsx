@@ -8,8 +8,6 @@ import LayoutGridCell from './layout-grid-cell'
 import "../styles/grid.style.scss";
 
 const LayoutEditor = () => {
-  useFetchTables(); // fetch tables from back end
-
   let cells = useCellGrid();
 
   return (
