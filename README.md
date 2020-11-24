@@ -1,4 +1,4 @@
 # Restaurant reservations management system
 ## React Academy Project
 
-¯\_(ツ)_/¯
+¯ \ _ (ツ) _ / ¯
