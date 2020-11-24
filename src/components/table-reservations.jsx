@@ -75,7 +75,7 @@ export default function TableReservations() {
     <IconButton color="primary" aria-label="Create reservation" onClick={clickAddHandler}>
     <AddCircleIcon />
     </IconButton>
-    { tableReservations ?
+    { tableReservations.length ?
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
@@ -111,7 +111,7 @@ export default function TableReservations() {
         </TableBody>
       </Table>
     </TableContainer>
-    : null}
+    : <div className="paper">No reservations yet</div>}
     <ReservationModal />
     </div>
   );
