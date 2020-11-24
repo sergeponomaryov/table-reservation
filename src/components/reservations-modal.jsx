@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function ReservationModal() {
+export default function ReservationsModal() {
   const [state, dispatch] = useContext(Context);
   const { openReservationModal, tableReservations } = state;
   const reservation = state.selectedReservation;

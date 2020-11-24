@@ -10,7 +10,8 @@ const initialState = {
     openReservationModal: false,
     selectedReservation: null,
     tableReservations: [],
-    refreshReservations: false
+    refreshReservations: false,
+    dateReservations: [],
 };
 
 export const Store = ({children}) => {

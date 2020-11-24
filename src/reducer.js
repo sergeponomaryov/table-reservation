@@ -20,6 +20,11 @@ const Reducer = (state, action) => {
                 ...state,
                 tableReservations: action.payload
             };
+        case 'SET_DATE_RESERVATIONS':
+            return {
+                ...state,
+                dateReservations: action.payload
+            };
         case 'SET_FIREBASE_LOADING':
             return {
                 ...state,

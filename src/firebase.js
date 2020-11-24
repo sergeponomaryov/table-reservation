@@ -137,6 +137,20 @@ export const getTableReservations = async (tableId, filter) => {
   });
 };
 
+export const getDateReservations = async (date) => {
+  const snapshot = db
+    .collection("reservations")
+    .where('date', '>', new Date())
+    .orderBy("tableId", "asc")
+    .orderBy("date", "asc")
+    .get();
+  return snapshot.docs.map((doc) => {
+    const data = doc.data();
+    const id = doc.id;
+    return { id, ...data };
+  });
+};
+
 export const saveReservation = async (id, data) => {
   const doc = id ? db.collection("reservations").doc(id) : db.collection("reservations").doc();
   return doc.set(data, { merge: true });

@@ -28,8 +28,9 @@ import AssessmentIcon from '@material-ui/icons/Assessment';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import LayoutEditor from './layout-editor';
-import Reservations from './reservations';
-import TableReservations from './table-reservations';
+import ReservationsPage from './reservations-page';
+import ReservationsTable from './reservations-table';
+import Report from './report';
 
 const drawerWidth = 240;
 
@@ -217,9 +218,9 @@ export default function Dashboard() {
               <Paper className={classes.paper}>
               <Switch>
                 <Route exact path="/" component={LayoutEditor}></Route>
-                <Route exact path="/reservations" component={Reservations}></Route>
-                <Route exact path="/reservations/:tableId" component={TableReservations}></Route>
-                <Route exact path="/report" component={LayoutEditor}></Route>
+                <Route exact path="/reservations" component={ReservationsPage}></Route>
+                <Route exact path="/reservations/:tableId" component={ReservationsTable}></Route>
+                <Route exact path="/report" component={Report}></Route>
               </Switch>
               </Paper>
             </Grid>

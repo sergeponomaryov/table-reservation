@@ -1,13 +1,12 @@
 import React from "react";
-import useFetchTables from "../hooks/useFetchTables";
 import useCellGrid from "../hooks/useCellGrid";
 
-import TableModal from "./table-modal";
+import ReservationsModal from "./table-modal";
 import ReservationsGridCell from './reservations-grid-cell'
 
 import "../styles/grid.style.scss";
 
-const LayoutEditor = () => {
+const ReservationsPage = () => {
   let cells = useCellGrid();
 
   return (
@@ -17,9 +16,9 @@ const LayoutEditor = () => {
           return (<ReservationsGridCell key={i} cell={i} />)
         })}
       </div>
-      <TableModal />
+      <ReservationsModal />
     </div>
   );
 };
 
-export default LayoutEditor;
+export default ReservationsPage;

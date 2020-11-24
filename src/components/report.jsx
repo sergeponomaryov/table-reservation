@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
 import { Context } from "../store";
 import {useParams} from 'react-router-dom';
-import useFetchReservations from '../hooks/useFetchReservations'
+import useFetchTableReservations from '../hooks/useFetchTableReservations'
 import {deleteReservation} from '../firebase'
 import { useHistory } from "react-router-dom";
 
@@ -20,7 +20,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import NativeSelect from '@material-ui/core/NativeSelect'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
-import ReservationModal from './reservation-modal'
+import ReservationModal from './reservations-modal'
 
 const useStyles = makeStyles({
   table: {
@@ -28,32 +28,14 @@ const useStyles = makeStyles({
   },
 });
 
-export default function TableReservations() {
+export default function Report() {
   const classes = useStyles();
 
-  let { tableId } = useParams();
-  const [filter, setFilter] = useState("all");
-  useFetchReservations(tableId, filter);
+  const [date, setDate] = useState();
+  useFetchDateReservations(date);
   const [state, dispatch] = useContext(Context);
-  const {tableReservations} = state;
+  const {dateReservations} = state;
   const history = useHistory();
-
-  const clickAddHandler = () => {
-    dispatch({ type: "OPEN_RESERVATION_MODAL", payload: true });
-    dispatch({ type: "SELECT_RESERVATION", payload: null });
-  };
-
-  const clickUpdateHandler = (reservation) => {
-    dispatch({ type: "OPEN_RESERVATION_MODAL", payload: true });
-    dispatch({ type: "SELECT_RESERVATION", payload: reservation });
-  };
-
-  const clickDeleteHandler = async (reservation) => {
-    if (window.confirm('Please confirm deletion')) {
-      await deleteReservation(reservation.id);
-      dispatch({ type: "REFRESH_RESERVATIONS" });
-    }
-  };
 
   const onChangeHandler = (event) => {
     const { name, value } = event.target;
@@ -72,10 +54,7 @@ export default function TableReservations() {
       <option value="past">Show Past</option>
       <option value="future">Show Future</option>
     </NativeSelect>
-    <IconButton color="primary" aria-label="Create reservation" onClick={clickAddHandler}>
-    <AddCircleIcon />
-    </IconButton>
-    { tableReservations.length ?
+    { dateReservations.length ?
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
