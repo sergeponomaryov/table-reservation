@@ -75,7 +75,7 @@ export default function ReservationsTable() {
         </TableHead>
         <TableBody>
           {tableReservations.map((reservation) => (
-            <ReservationTableRow reservation={reservation}></ReservationTableRow>
+            <ReservationTableRow reservation={reservation} withActions={true}></ReservationTableRow>
           ))}
         </TableBody>
       </Table>

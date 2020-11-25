@@ -1,5 +1,6 @@
 import { useEffect, useContext } from 'react';
 import { Context } from "../store";
+import {getDateReservations} from '../firebase'
 
 const useFetchTableReservations = (date) => {
   const [state, dispatch] = useContext(Context);
