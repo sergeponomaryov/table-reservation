@@ -125,16 +125,24 @@ export const getTableReservations = async (tableId, filter) => {
 };
 
 export const getDateReservations = async (userId, startDate, endDate) => {
-  // fetch user table ids
+  // fetch user tables
   const tablesSnap = await db
     .collection("tables")
     .where("userId", "==", userId)
     .get();
-  const tableIds = tablesSnap.docs.map((doc) => {
+  const tablesData = tablesSnap.docs.map((doc) => {
+    const data = doc.data();
     const id = doc.id;
-    return id;
+    return { id, ...data };
   });
-  if(!tableIds.length) return;
+  if(!tablesData.length) return;
+
+  // map table ids and numbers
+  let tablesIndex = [];
+  tablesData.forEach((table) => {
+    tablesIndex[table.id] = table.number;
+  });
+  const tableIds = Object.keys(tablesIndex);
 
   // fetch reservations for provided date and table ids
   const snapshot = await db
@@ -142,13 +150,13 @@ export const getDateReservations = async (userId, startDate, endDate) => {
     .where('date', '>=', startDate)
     .where('date', '<=', endDate)
     .where('tableId', 'in', tableIds)
-    // .orderBy("tableId", "asc")
-    // .orderBy("date", "asc")
     .get();
   return snapshot.docs.map((doc) => {
     const data = doc.data();
     const id = doc.id;
-    return { id, ...data };
+    // add table number to our response
+    const tableNumber = tablesIndex[data.tableId];
+    return { id, tableNumber, ...data };
   });
 };
 

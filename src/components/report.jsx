@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react';
 import { Context } from "../store";
-import useFetchDateReservations from '../hooks/useFetchDateReservations'
+import useFetchReservationsByDate from '../hooks/useFetchReservationsByDate'
 
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -27,7 +27,7 @@ export default function Report() {
   const [date, setDate] = useState("");
   const [state, dispatch] = useContext(Context);
   const {dateReservations} = state;
-  useFetchDateReservations(date);
+  useFetchReservationsByDate(date);
 
   const onChangeHandler = (event) => {
     const { name, value } = event.currentTarget;

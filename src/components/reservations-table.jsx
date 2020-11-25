@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
 import { Context } from "../store";
 import {useParams} from 'react-router-dom';
-import useFetchTableReservations from '../hooks/useFetchTableReservations'
+import useFetchReservationsByTable from '../hooks/useFetchReservationsByTable'
 import { useHistory } from "react-router-dom";
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -31,7 +31,7 @@ export default function ReservationsTable() {
 
   let { tableId } = useParams();
   const [filter, setFilter] = useState("all");
-  useFetchTableReservations(tableId, filter);
+  useFetchReservationsByTable(tableId, filter);
   const [state, dispatch] = useContext(Context);
   const {tableReservations} = state;
   const history = useHistory();

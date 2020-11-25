@@ -37,8 +37,6 @@ export default function LayoutTableModal() {
     setSeats(table ? table.seats : "");
   }, [table]);
 
-  console.log(table);
-
   const classes = useStyles();
 
   const handleClose = () => {

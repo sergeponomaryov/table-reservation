@@ -3,7 +3,7 @@ import { Context } from "../store";
 import {getDateReservations} from '../firebase'
 import useAuth from "./useAuth";
 
-const useFetchTableReservations = (date) => {
+const useFetchReservationsByDate = (date) => {
   const user = useAuth();
   const [state, dispatch] = useContext(Context);
 
@@ -19,7 +19,13 @@ const useFetchTableReservations = (date) => {
       endDate.setHours(23, 59, 59);
       const fetchData = async () => {
         const data = await getDateReservations(user.uid, startDate, endDate);
-        dispatch({ type: "SET_DATE_RESERVATIONS", payload: data });
+        // now group this by table
+        const sorted = data.sort(function(a, b){
+          if(a.tableNumber < b.tableNumber) { return -1; }
+          if(a.tableNumber > b.tableNumber) { return 1; }
+          return 0;
+        });
+        dispatch({ type: "SET_DATE_RESERVATIONS", payload: sorted });
       };
       fetchData();
   }, [date]);
@@ -27,4 +33,4 @@ const useFetchTableReservations = (date) => {
   return true;
 };
 
-export default useFetchTableReservations;
+export default useFetchReservationsByDate;

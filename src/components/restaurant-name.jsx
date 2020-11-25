@@ -40,7 +40,6 @@ export default function RestaurantName() {
     event.preventDefault();
     try {
       const doc = await saveUserDocument(user, { restaurantName });
-      console.log(doc);
     } catch (error) {
       alert(error.message);
     }

@@ -2,7 +2,7 @@ import { useEffect, useContext } from 'react';
 import { getTableReservations } from "../firebase";
 import { Context } from "../store";
 
-const useFetchTableReservations = (tableId, filter) => {
+const useFetchReservationsByTable = (tableId, filter) => {
   const [state, dispatch] = useContext(Context);
   const {refreshReservations} = state;
 
@@ -18,4 +18,4 @@ const useFetchTableReservations = (tableId, filter) => {
   return true;
 };
 
-export default useFetchTableReservations;
+export default useFetchReservationsByTable;
