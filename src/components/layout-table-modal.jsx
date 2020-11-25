@@ -31,7 +31,7 @@ export default function LayoutTableModal() {
   const [state, dispatch] = useContext(Context);
   const { selectedCell } = state;
   const table = useFindTableByCell(selectedCell);
-  const [seats, setSeats] = useState();
+  const [seats, setSeats] = useState("");
 
   useEffect(() => {
     setSeats(table ? table.seats : "");
@@ -44,10 +44,12 @@ export default function LayoutTableModal() {
   };
 
   const handleSave = async () => {
-    if(table) await updateTable(table.id, { seats });
-    else await createTable({ cell: selectedCell, userId: user.uid, seats });
-    dispatch({ type: "REFRESH_TABLES" });
-    handleClose();
+    if(validateForm()) {
+      if(table) await updateTable(table.id, { seats: parseInt(seats) });
+      else await createTable({ cell: selectedCell, userId: user.uid, seats: parseInt(seats) });
+      dispatch({ type: "REFRESH_TABLES" });
+      handleClose();
+    }
   };
 
   const handleDelete = async () => {
@@ -56,10 +58,18 @@ export default function LayoutTableModal() {
     handleClose();
   };
 
+  const validateForm = () => {
+    if(!seats) {
+      alert("Seats number is required");
+      return false;
+    }
+    return true;
+  }
+
   const onChangeHandler = (event) => {
     const { name, value } = event.currentTarget;
     if (name === "seats") {
-      setSeats(parseInt(value));
+      setSeats(value);
     }
   };
 
@@ -100,6 +110,7 @@ export default function LayoutTableModal() {
             >
               Submit
             </Button>
+            { table ?
             <Button
               type="button"
               fullWidth
@@ -112,6 +123,7 @@ export default function LayoutTableModal() {
             >
               Delete
             </Button>
+            : null}
           </form>
         </div>
       </Modal>
