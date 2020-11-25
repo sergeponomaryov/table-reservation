@@ -12,6 +12,7 @@ const initialState = {
     tableReservations: [],
     refreshReservations: false,
     dateReservations: [],
+    restaurantName: ""
 };
 
 export const Store = ({children}) => {

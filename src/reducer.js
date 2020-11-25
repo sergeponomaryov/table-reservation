@@ -52,6 +52,11 @@ const Reducer = (state, action) => {
                 ...state,
                 refreshReservations: Date.now()
             };
+        case 'SET_RESTAURANT_NAME':
+            return {
+                ...state,
+                restaurantName: action.payload
+            };
     }
 };
 

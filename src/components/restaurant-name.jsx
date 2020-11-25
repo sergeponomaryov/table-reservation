@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { saveUserDocument } from "../firebase";
 import useAuth from "../hooks/useAuth";
+import { Context } from "../store";
 
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -35,15 +36,27 @@ const useStyles = makeStyles((theme) => ({
 export default function RestaurantName() {
   const [restaurantName, setRestaurantName] = useState("");
   const user = useAuth();
+  const [state, dispatch] = useContext(Context);
 
   const saveRestaurantName = async (event, restaurantName) => {
     event.preventDefault();
-    try {
-      const doc = await saveUserDocument(user, { restaurantName });
-    } catch (error) {
-      alert(error.message);
+    if(validateForm()) {
+      try {
+        const doc = await saveUserDocument(user, { restaurantName });
+        dispatch({ type: "SET_RESTAURANT_NAME", payload: doc.restaurantName });
+      } catch (error) {
+        alert(error.message);
+      }
     }
   };
+
+  const validateForm = () => {
+    if(!restaurantName) {
+      alert("Restaurant name is required");
+      return false;
+    }
+    return true;
+  }
 
   const onChangeHandler = (event) => {
     const { name, value } = event.currentTarget;

@@ -14,9 +14,8 @@ import Dashboard from './components/dashboard';
 
 function App() {
   const user = useAuth();
-  const {restaurantName} = user || {}
   const [state, dispatch] = useContext(Context);
-  const {firebaseLoading} = state;
+  const {firebaseLoading, restaurantName} = state;
 
   return (
     <div className="App">

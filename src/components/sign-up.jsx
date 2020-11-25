@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { auth, saveUserDocument } from "../firebase";
+import { useHistory } from "react-router-dom";
 
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -36,22 +37,43 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
+  const history = useHistory();
   const createUserWithEmailAndPasswordHandler = async (
     event,
     email,
     password
   ) => {
-    event.preventDefault();
-    try {
-      const { user } = await auth.createUserWithEmailAndPassword(
-        email,
-        password
-      );
-      saveUserDocument(user, { displayName });
-    } catch (error) {
-      alert(error.message);
+    if(validateForm()) {
+      event.preventDefault();
+      try {
+        const { user } = await auth.createUserWithEmailAndPassword(
+          email,
+          password
+        );
+        await saveUserDocument(user, { displayName });
+        history.push('/');
+      } catch (error) {
+        alert(error.message);
+      }
     }
   };
+
+  const validateForm = () => {
+    if(!email) {
+      alert("Email is required");
+      return false;
+    }
+    if(!password) {
+      alert("Password is required");
+      return false;
+    }
+    if(!displayName) {
+      alert("Manager name is required");
+      return false;
+    }
+    return true;
+  }
+
   const onChangeHandler = (event) => {
     const { name, value } = event.currentTarget;
     if (name === "email") {

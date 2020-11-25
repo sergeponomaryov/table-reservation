@@ -10,6 +10,7 @@ const useAuth = () => {
       const unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
         const user = await saveUserDocument(userAuth);
         setUser(user);
+        dispatch({ type: "SET_RESTAURANT_NAME", payload: user ? user.restaurantName : "" });
         if(state.firebaseLoading) dispatch({ type: "SET_FIREBASE_LOADING", payload: false });
       })
   
