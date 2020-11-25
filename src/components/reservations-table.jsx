@@ -75,7 +75,7 @@ export default function ReservationsTable() {
         </TableHead>
         <TableBody>
           {tableReservations.map((reservation) => (
-            <ReservationTableRow reservation={reservation} withActions={true} key={reservation.id}></ReservationTableRow>
+            <ReservationTableRow reservation={reservation} key={reservation.id}></ReservationTableRow>
           ))}
         </TableBody>
       </Table>

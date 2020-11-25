@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store";
 import { createTable, updateTable, deleteTable } from "../firebase";
 import useAuth from "../hooks/useAuth";
-import useFindTable from '../hooks/useFindTable';
+import useFindTableByCell from '../hooks/useFindTableByCell';
 
 import Modal from "@material-ui/core/Modal";
 import { makeStyles } from "@material-ui/core/styles";
@@ -30,7 +30,7 @@ export default function LayoutTableModal() {
   const user = useAuth();
   const [state, dispatch] = useContext(Context);
   const { selectedCell } = state;
-  const table = useFindTable(selectedCell);
+  const table = useFindTableByCell(selectedCell);
   const [seats, setSeats] = useState();
 
   useEffect(() => {

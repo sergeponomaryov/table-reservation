@@ -1,10 +1,10 @@
 import { useHistory } from "react-router-dom";
-import useFindTable from '../hooks/useFindTable';
+import useFindTableByCell from '../hooks/useFindTableByCell';
 import GridTable from "./grid-table";
 
 const ReservationsGridCell = ({cell}) => {
     const history = useHistory();
-    const table = useFindTable(cell);
+    const table = useFindTableByCell(cell);
 
     const cellClickHandler = (table) => {
       if(table) history.push(`/reservations/${table.id}`);

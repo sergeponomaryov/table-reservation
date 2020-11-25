@@ -76,19 +76,6 @@ export const getTables = async (userId) => {
   });
 };
 
-export const getTableByCell = async (userId, cell) => {
-  const query = await db.collection("tables").where("cell", "==", cell).where("userId", "==", userId).get();
-
-  if (!query.empty) {
-    const snapshot = query.docs[0];
-    const data = snapshot.data();
-    const id = snapshot.id;
-    return { id, ...data };
-  } else {
-    return null;
-  }
-};
-
 export const updateTable = async (id, data) => {
   const doc = db.collection("tables").doc(id);
   return doc.set(data, { merge: true });

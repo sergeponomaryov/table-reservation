@@ -1,7 +1,7 @@
 import { useEffect, useContext, useState } from 'react';
 import { Context } from "../store";
 
-const useFindTable = (cell) => {
+const useFindTableByCell = (cell) => {
   const [state, dispatch] = useContext(Context);
   const {tables} = state;
   const [table, setTable] = useState(null);
@@ -13,4 +13,4 @@ const useFindTable = (cell) => {
   return table;
 };
 
-export default useFindTable;
+export default useFindTableByCell;

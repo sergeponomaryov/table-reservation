@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton'
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-export default function ReservationsTableRow({reservation, withActions}) {
+export default function ReservationsTableRow({reservation}) {
   const [state, dispatch] = useContext(Context);
 
   const clickUpdateHandler = (reservation) => {
@@ -24,7 +24,7 @@ export default function ReservationsTableRow({reservation, withActions}) {
   };
 
   return (<TableRow key={reservation.id}>
-      <TableCell component="th" scope="row">
+      <TableCell>
         {reservation.date.toDate().toDateString()}
       </TableCell>
       <TableCell>
@@ -32,7 +32,6 @@ export default function ReservationsTableRow({reservation, withActions}) {
       </TableCell>
       <TableCell>{reservation.name}</TableCell>
       <TableCell>{reservation.phone}</TableCell>
-      { withActions ?
       <TableCell align="right">
         <IconButton color="primary" aria-label="Update" onClick={() => {clickUpdateHandler(reservation)}}>
           <EditIcon />
@@ -41,6 +40,5 @@ export default function ReservationsTableRow({reservation, withActions}) {
           <DeleteIcon />
         </IconButton>
       </TableCell>
-      : null }
     </TableRow>);
 }

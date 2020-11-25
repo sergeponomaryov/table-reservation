@@ -13,6 +13,7 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField'
 
 import ReservationTableRow from './reservations-table-row';
+import ReportTableRow from './report-table-row';
 
 const useStyles = makeStyles({
   table: {
@@ -54,7 +55,7 @@ export default function Report() {
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Date</TableCell>
+            <TableCell>Table #</TableCell>
             <TableCell>Time</TableCell>
             <TableCell>Name</TableCell>
             <TableCell>Phone</TableCell>
@@ -62,7 +63,7 @@ export default function Report() {
         </TableHead>
         <TableBody>
           {dateReservations.map((reservation) => (
-            <ReservationTableRow reservation={reservation} withActions={false} key={reservation.id}></ReservationTableRow>
+            <ReportTableRow reservation={reservation} key={reservation.id}></ReportTableRow>
           ))}
         </TableBody>
       </Table>

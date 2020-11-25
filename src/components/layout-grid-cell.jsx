@@ -1,13 +1,13 @@
 import {useContext} from 'react';
 import { Context } from "../store";
 import { updateTable } from "../firebase";
-import useFindTable from '../hooks/useFindTable';
+import useFindTableByCell from '../hooks/useFindTableByCell';
 import GridTable from "./grid-table";
 
 const LayoutGridCell = ({cell}) => {
     const [state, dispatch] = useContext(Context);
     const { draggedTable } = state;
-    const table = useFindTable(cell);
+    const table = useFindTableByCell(cell);
   
     const cellClickHandler = (cellNumber) => {
         dispatch({ type: "SELECT_CELL", payload: cellNumber });
