@@ -10,12 +10,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton'
-import AddCircleIcon from '@material-ui/icons/AddCircle';
-import NativeSelect from '@material-ui/core/NativeSelect'
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import TextField from '@material-ui/core/TextField'
 
-import ReservationModal from './reservations-modal'
 import ReservationTableRow from './reservations-table-row';
 
 const useStyles = makeStyles({
@@ -24,16 +20,16 @@ const useStyles = makeStyles({
   },
 });
 
-export default function ReservationsTable() {
+export default function Report() {
   const classes = useStyles();
 
-  const [date, setDate] = useState();
-  useFetchDateReservations(date);
+  const [date, setDate] = useState("");
   const [state, dispatch] = useContext(Context);
   const {dateReservations} = state;
+  useFetchDateReservations(date);
 
   const onChangeHandler = (event) => {
-    const { name, value } = event.target;
+    const { name, value } = event.currentTarget;
     if (name === "date") {
       setDate(value);
     }
@@ -41,11 +37,18 @@ export default function ReservationsTable() {
 
   return (
     <div>
-    <NativeSelect id="select" name="date" value={date} onChange={(event) => onChangeHandler(event)}>
-      <option value="all">Show All</option>
-      <option value="past">Show Past</option>
-      <option value="future">Show Future</option>
-    </NativeSelect>
+    <TextField
+    id="date"
+    label="Date"
+    type="date"
+    value={date}
+    name="date"
+    className={classes.textField}
+    onChange={(event) => onChangeHandler(event)}
+    InputLabelProps={{
+      shrink: true,
+    }}
+    />
     { dateReservations.length ?
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
@@ -59,13 +62,12 @@ export default function ReservationsTable() {
         </TableHead>
         <TableBody>
           {dateReservations.map((reservation) => (
-            <ReservationTableRow reservation={reservation} withActions={false}></ReservationTableRow>
+            <ReservationTableRow reservation={reservation} withActions={false} key={reservation.id}></ReservationTableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
-    : <div className="paper">No reservations yet</div>}
-    <ReservationModal />
+    : <div className="paper">No reservations found</div>}
     </div>
   );
 }

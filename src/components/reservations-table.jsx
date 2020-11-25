@@ -75,12 +75,12 @@ export default function ReservationsTable() {
         </TableHead>
         <TableBody>
           {tableReservations.map((reservation) => (
-            <ReservationTableRow reservation={reservation} withActions={true}></ReservationTableRow>
+            <ReservationTableRow reservation={reservation} withActions={true} key={reservation.id}></ReservationTableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
-    : <div className="paper">No reservations yet</div>}
+    : <div className="paper">No reservations found</div>}
     <ReservationModal />
     </div>
   );

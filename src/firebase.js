@@ -137,12 +137,26 @@ export const getTableReservations = async (tableId, filter) => {
   });
 };
 
-export const getDateReservations = async (date) => {
-  const snapshot = db
+export const getDateReservations = async (userId, startDate, endDate) => {
+  // fetch user table ids
+  const tablesSnap = await db
+    .collection("tables")
+    .where("userId", "==", userId)
+    .get();
+  const tableIds = tablesSnap.docs.map((doc) => {
+    const id = doc.id;
+    return id;
+  });
+  if(!tableIds.length) return;
+
+  // fetch reservations for provided date and table ids
+  const snapshot = await db
     .collection("reservations")
-    .where('date', '>', new Date())
-    .orderBy("tableId", "asc")
-    .orderBy("date", "asc")
+    .where('date', '>=', startDate)
+    .where('date', '<=', endDate)
+    .where('tableId', 'in', tableIds)
+    // .orderBy("tableId", "asc")
+    // .orderBy("date", "asc")
     .get();
   return snapshot.docs.map((doc) => {
     const data = doc.data();
