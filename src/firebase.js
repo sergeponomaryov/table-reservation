@@ -90,6 +90,12 @@ export const createTable = async (data) => {
 };
 
 export const deleteTable = async (id) => {
+  // delete reservations first, otherwise we'll lack permissions
+  const snapshot = await db.collection('reservations').where('tableId', '==', id).get();
+  snapshot.forEach(element => {
+    element.ref.delete();
+  });
+  // now delete table itself
   return db.collection("tables").doc(id).delete();
 };
 
