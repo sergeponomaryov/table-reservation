@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
+import { chunk } from 'lodash';
 
 const config = {
   apiKey: "AIzaSyBlZBeow8Y8Bm3mLcrcXLkU5jpZxtqI7LA",
@@ -150,20 +151,30 @@ export const getDateReservations = async (userId, startDate, endDate) => {
   });
   const tableIds = Object.keys(tablesIndex);
 
-  // fetch reservations for provided date and table ids
-  const snapshot = await db
-    .collection("reservations")
-    .where('date', '>=', startDate)
-    .where('date', '<=', endDate)
-    .where('tableId', 'in', tableIds)
-    .get();
-  return snapshot.docs.map((doc) => {
-    const data = doc.data();
-    const id = doc.id;
-    // add table number to our response
-    const tableNumber = tablesIndex[data.tableId];
-    return { id, tableNumber, ...data };
-  });
+  // lovely firestore limits IN clause to 10 elements
+  // split our array into chunks to deal with this hipster database
+  // give me back mysql :(
+  const chunks = chunk(tableIds, 10);
+
+  let resp = [];
+  for (const chunk of chunks) {
+    // fetch reservations for provided date and table ids
+    const snapshot = await db
+      .collection("reservations")
+      .where('date', '>=', startDate)
+      .where('date', '<=', endDate)
+      .where('tableId', 'in', chunk)
+      .get();
+    resp = resp.concat(snapshot.docs.map((doc) => {
+      const data = doc.data();
+      const id = doc.id;
+      // add table number to our response
+      const tableNumber = tablesIndex[data.tableId];
+      return { id, tableNumber, ...data };
+    }));
+  }
+
+  return resp;
 };
 
 export const saveReservation = async (id, data) => {
