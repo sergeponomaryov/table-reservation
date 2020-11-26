@@ -7,15 +7,22 @@ const useAuth = () => {
     const [state, dispatch] = useContext(Context);
   
     useEffect(() => {
+      let didCancel = false;
       const unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
-        const user = await saveUserDocument(userAuth);
-        setUser(user);
-        dispatch({ type: "SET_RESTAURANT_NAME", payload: user ? user.restaurantName : "" });
+        if(userAuth) {
+          const user = await saveUserDocument(userAuth);
+          if(!didCancel) {
+            setUser(user);
+            dispatch({ type: "SET_RESTAURANT_NAME", payload: user ? user.restaurantName : "" });
+          }
+        }
+        else setUser(null);
         if(state.firebaseLoading) dispatch({ type: "SET_FIREBASE_LOADING", payload: false });
       })
   
       return () => {
         unsubscribeFromAuth();
+        didCancel = true;
       }
     }, []);
   

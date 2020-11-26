@@ -9,17 +9,21 @@ const useTables = () => {
   const {refreshTables} = state;
 
   useEffect(() => {
-      if (!user) {
-        dispatch({ type: "SET_TABLES", payload: [] });
-        return;
-      }
-      else {
-        const fetchData = async () => {
+      let didCancel = false;
+      const fetchData = async () => {
+        if (!user) {
+          dispatch({ type: "SET_TABLES", payload: [] });
+          return;
+        }
+        else {
           const tables = await getTables(user.uid);
           dispatch({ type: "SET_TABLES", payload: tables });
-        };
-        fetchData();
-      }
+        }
+      };
+      if(!didCancel) fetchData();
+      return () => {
+        didCancel = true;
+      };
   }, [user, refreshTables]);
 
   return true;

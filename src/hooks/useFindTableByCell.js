@@ -7,7 +7,13 @@ const useFindTableByCell = (cell) => {
   const [table, setTable] = useState(null);
 
   useEffect(() => {
-    setTable(tables.find(obj => {return obj.cell === cell}));
+    let didCancel = false;
+    if (!didCancel) {
+      setTable(tables.find(obj => {return obj.cell === cell}));
+    }
+    return () => {
+      didCancel = true;
+    };
   }, [tables, cell]);
 
   return table;

@@ -7,12 +7,16 @@ const useFetchReservationsByTable = (tableId, filter) => {
   const {refreshReservations} = state;
 
   useEffect(() => {
-      if (!tableId) return;
+      let didCancel = false;
       const fetchData = async () => {
+        if (!tableId) return;
         const data = await getTableReservations(tableId, filter);
-        dispatch({ type: "SET_TABLE_RESERVATIONS", payload: data });
+        if(!didCancel) dispatch({ type: "SET_TABLE_RESERVATIONS", payload: data });
       };
       fetchData();
+      return () => {
+        didCancel = true;
+      };
   }, [tableId, filter, refreshReservations]);
 
   return true;
