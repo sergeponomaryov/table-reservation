@@ -34,7 +34,12 @@ export default function LayoutTableModal() {
   const [seats, setSeats] = useState("");
 
   useEffect(() => {
-    setSeats(table ? table.seats : "");
+    // memory leak prevention
+    let isMounted = true;
+    if(isMounted) setSeats(table ? table.seats : "");
+    return () => {
+      isMounted = false;
+    };
   }, [table]);
 
   const classes = useStyles();
@@ -62,6 +67,10 @@ export default function LayoutTableModal() {
   const validateForm = () => {
     if(!seats) {
       alert("Seats number is required");
+      return false;
+    }
+    if(seats > 99) {
+      alert("Max 99 seats allowed");
       return false;
     }
     return true;
