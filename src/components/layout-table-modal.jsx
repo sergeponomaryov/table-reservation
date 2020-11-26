@@ -47,6 +47,7 @@ export default function LayoutTableModal() {
     if(validateForm()) {
       if(table) await updateTable(table.id, { seats: parseInt(seats) });
       else await createTable({ cell: selectedCell, userId: user.uid, seats: parseInt(seats) });
+      setSeats("");
       dispatch({ type: "REFRESH_TABLES" });
       handleClose();
     }
