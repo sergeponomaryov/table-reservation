@@ -86,7 +86,7 @@ export default function LayoutTableModal() {
   return (
     <div>
       <Modal
-        open={selectedCell ? true : false}
+        open={selectedCell !== null ? true : false}
         onClose={handleClose}
         className={classes.modal}
         aria-labelledby="simple-modal-title"
