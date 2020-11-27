@@ -30,8 +30,8 @@ export default function LayoutTableModal() {
   const user = useAuth();
   const [state, dispatch] = useContext(Context);
   const { selectedCell } = state;
-  const table = useFindTableByCell(selectedCell);
   const [seats, setSeats] = useState("");
+  const table = useFindTableByCell(selectedCell);
 
   useEffect(() => {
     // memory leak prevention

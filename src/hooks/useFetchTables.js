@@ -12,15 +12,15 @@ const useTables = () => {
       let didCancel = false;
       const fetchData = async () => {
         if (!user) {
-          dispatch({ type: "SET_TABLES", payload: [] });
+          if(!didCancel) dispatch({ type: "SET_TABLES", payload: [] });
           return;
         }
         else {
           const tables = await getTables(user.uid);
-          dispatch({ type: "SET_TABLES", payload: tables });
+          if(!didCancel) dispatch({ type: "SET_TABLES", payload: tables });
         }
       };
-      if(!didCancel) fetchData();
+      fetchData();
       return () => {
         didCancel = true;
       };

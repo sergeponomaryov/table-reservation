@@ -132,7 +132,7 @@ export default function Dashboard() {
   };
 
   const handleSignOut = () => {
-    auth.signOut().then(() => {history.push('/')});
+    auth.signOut();
   }
 
   // fetch tables from back end as soon as app is loaded

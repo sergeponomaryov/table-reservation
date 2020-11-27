@@ -1,5 +1,4 @@
 import React from "react";
-import useFetchTables from "../hooks/useFetchTables";
 import useCellGrid from "../hooks/useCellGrid";
 
 import LayoutTableModal from "./layout-table-modal";
