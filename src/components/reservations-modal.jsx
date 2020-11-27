@@ -81,7 +81,8 @@ export default function ReservationsModal() {
       alert("Reservations can only start at the beginning of an hour (eg. 5:00PM, 6:00PM, but not 5:22PM, 5:30PM etc.)");
       return false;
     }
-    if(tableReservations.find(obj => {return obj.date.toDate().getTime() === dateObj.getTime()})) {
+    const reservationId = reservation ? reservation.id : null;
+    if(tableReservations.find(obj => {return obj.date.toDate().getTime() === dateObj.getTime() && obj.id != reservationId})) {
       alert("Table is already booked for that time");
       return false;
     }
