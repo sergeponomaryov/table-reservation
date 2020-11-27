@@ -95,7 +95,7 @@ export default function SignUp() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign Up - Table Management
+          Sign Up - Table Reservations
         </Typography>
         <form className={classes.form} noValidate onSubmit={(e) => {e.preventDefault();}}>
           <Grid container spacing={2}>

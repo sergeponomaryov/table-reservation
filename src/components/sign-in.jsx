@@ -63,7 +63,7 @@ export default function SignIn() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign In - Table Management
+          Sign In - Table Reservations
         </Typography>
         <form className={classes.form} noValidate onSubmit={(e) => {e.preventDefault();}}>
           <TextField
